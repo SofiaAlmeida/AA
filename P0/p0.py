@@ -1,5 +1,5 @@
 # Autora: Sofía Almeida Bruno
-# Asignatra: Aprendizaje Automático
+# Asignatura: Aprendizaje Automático
 # Práctica 0 - Introducción a Python
 
 from sklearn import datasets
@@ -31,7 +31,7 @@ def ej1():
     # Visualizamos los datos
     df = pd.DataFrame({"Longitud de pétalo" : X_last[:,0],
                        "Anchura de pétalo" : X_last[:,1],
-                       "Especie" : y[:]})
+                       "Especie" : y})
     ax = sns.scatterplot(x="Longitud de pétalo", y="Anchura de pétalo", data=df, hue="Especie", palette=sns.color_palette("Set1", n_colors=3, desat=.5))
     plt.show()
 
@@ -67,13 +67,25 @@ def ej3():
     print("Número de elementos: ", values.shape[0])
 
     # Obtener el valor de sin(x)
+    sin_values = np.sin(values)
+    print("Seno: ",sin_values)
 
     # Obtener el valor de cos(x)
+    cos_values = np.cos(values)
+    print("Coseno: ", cos_values)
 
     # Obtener el valor de sin(x) + cos(x)
-
-    # Visualizar las tres curvas simultáneamente en el mismo plot (líneas discontinuas en negro, azul y rojo
+    add_values = sin_values + cos_values
+    print("Suma: ", add_values)
     
-#ej1()
-#ej2()
+    # Visualizar las tres curvas simultáneamente en el mismo plot (líneas discontinuas en negro, azul y rojo
+    fig = plt.figure()
+    ax = plt.axes()
+    ax.plot(values, sin_values, color='black', linestyle='--')
+    ax.plot(values, cos_values, color='blue', linestyle='--')
+    ax.plot(values, add_values, color='red', linestyle='--')
+    plt.show()
+    
+ej1()
+ej2()
 ej3()
