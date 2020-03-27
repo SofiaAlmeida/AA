@@ -281,7 +281,7 @@ La tasa de aprendizaje es un factor multiplicativo en la actualización del vect
 \textbf{b) Obtener el valor mínimo y los valores de las variables $(x, y)$ en donde se alcanzan cuando el punto de inicio se fija en: $(2,1, -2,1), (3, -3),(1,5, 1,5),(1, -1)$. Generar una
 tabla con los valores obtenidos.}
 
-Para esta experimentación se ha utilizado \texttt{lr} = 0.01 y \texttt{max\_iters} = 50.
+Para esta experimentación se ha utilizado \texttt{lr} = 0.01 y \texttt{max\_iters} = 50 (se comprueba empíricamente que es un número de iteraciones suficientes para alcanzar el mínimo).
 
 \begin{table}[H]
 \centering
@@ -305,13 +305,15 @@ global de una función arbitraria?}
 
 Para encontrar un mínimo global de una función arbitraria creo que la dificultad no estriba en el algoritmo en sí, cuya posible dificultad es el cálculo de las derivadas parciales de las funciones, sino la determinación de los parámetros a utilizar.
 
-En los ejercicios anteriores hemos probado epíricamente cómo, lo que a priori parecían ligeras variaciones en los parámetros, provocaron grandes diferencias en los resultados. Por un lado,  una tasa de aprendizaje mayor que la apropiada podría implicar que en cada iteración los valores de $w$ fueran oscilando sobre la función sin llegar a un óptimo. Mientras que, si este fuera demasiado pequeño, podríamos caer en un óptimo local. El punto inicial es también determinante en este sentido, si la función tiene varios mínimos locales y partimos cerca de uno que no sea el mínimo absoluto de la función, el algoritmo podría devolvernos como valor mínimo alguno de los mínimos locales.
+En los ejercicios anteriores hemos probado epíricamente cómo, lo que a priori parecían ligeras variaciones en los parámetros, provocaron grandes diferencias en los resultados. Por un lado,  una tasa de aprendizaje mayor que la apropiada podría implicar que en cada iteración los valores de $w$ fueran oscilando sobre la función sin llegar a un óptimo. Mientras que, si este fuera demasiado pequeño, el algoritmo podría necesitar muchas iteraciones para converger. El punto inicial es también determinante en este sentido, si la función tiene varios mínimos locales y partimos cerca de uno que no sea el mínimo absoluto de la función, el algoritmo podría devolvernos como valor mínimo alguno de los mínimos locales.
 
 Por tanto, la dificultad de este algoritmo consiste en encontrar la combinación de parámetros, desconocida, que nos permita alcanzar el mínimo global de la función, sin caer en óptimos locales ni quedarse oscilando.
 \newpage
 \section{Ejercicio sobre Regresión Lineal}
 \textbf{Este ejercicio ajusta modelos de regresión a vectores de características extraidos de imágenes de digitos manuscritos. En particular se extraen dos característcas concretas: el valor medio del nivel de gris y simetría del número respecto de su eje vertical. Solo se seleccionarán para este ejercicio las imágenes de los números 1 y 5.}
 
+\subsection{Estimar un modelo de regresión lineal a partir de los datos proporcionados de dichos números (Intensidad promedio, Simetria) usando tanto el algoritmo de la pseudoinversa como Gradiente descendente estocástico (SGD).}
+\textbf{Las etiquetas serán \{-1, 1\}, una para cada vector de cada uno de los números. Pintar las soluciones obtenidas junto con los datos usados en el ajuste. Valorar la bondad del resultado usando $E_{in}$ y $E_{out}$ (para $E_{out}$ calcular las predicciones usando los datos del fichero de test). (usar \texttt{Regress\_Lin(datos, label)} como llamada para la función (opcional)).}
 
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
