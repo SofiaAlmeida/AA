@@ -204,7 +204,7 @@ Pintamos la función correspondiente para hacernos una idea de su forma y en qu�
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{e1}
-    \caption{Función $E$}
+    \caption{Función $E$.}
     \label{fig:E}
 \end{figure}
 
@@ -236,7 +236,7 @@ Comenzamos generando el gráfico de la función para ver qué forma tiene. En la
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{f1}
-    \caption{Función $f$}
+    \caption{Función $f$.}
     \label{fig:f1}
 \end{figure}
 
@@ -298,7 +298,15 @@ $(1.0, -1.0)$ & 1.7566613758319838 & -0.8117887547719083 & 1.0333658794298513\\
 \end{tabular}
 \end{table}
 
-Observamos en la Tabla \ref{tab:f} que los valores mínimos alcanzados difieren según el punto inicial tomado. Si observamos la Figura \ref{fig:f1} notamos que el punto $(2.1, -2.1)$ tiene un valor de la función $f$ menor que los correspondientes al resto de valores iniciales, es por esto que al aplicar el algoritmo alcanza el mínimo global. Al ser el resto de puntos mayores, alcanzan mínimos  locales y se quedan estancados en ellos. El caso más destacable es el del punto $(1.5, 1.5)$, el valor mínimo obtenido al partir de este punto difiere enormemente de los obtenidos con el resto de puntos, esto se debe, como ya se ha comentado, a que se parte de un valor más alto de la función $f$ que queda atrapado en un mínimo local.
+Observamos en la Tabla \ref{tab:f} que los valores mínimos alcanzados difieren según el punto inicial tomado. Si observamos la Figura \ref{fig:f1+pts} notamos que el punto $(2.1, -2.1)$ tiene un valor de la función $f$ menor que los correspondientes al resto de valores iniciales, es por esto que al aplicar el algoritmo alcanza el mínimo global. Al ser el resto de puntos mayores, alcanzan mínimos  locales y se quedan estancados en ellos. El caso más destacable es el del punto $(1.5, 1.5)$, el valor mínimo obtenido al partir de este punto difiere enormemente de los obtenidos con el resto de puntos, esto se debe, como ya se ha comentado, a que se parte de un valor más alto de la función $f$ que queda atrapado en un mínimo local.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{f1+pts}
+    \caption{Función $f$ y puntos iniciales.}
+    \label{fig:f1+pts}
+\end{figure}
+
 
 \subsection{¿Cuál sería su conclusión sobre la verdadera dificultad de encontrar el mínimo
 global de una función arbitraria?}
@@ -312,8 +320,91 @@ Por tanto, la dificultad de este algoritmo consiste en encontrar la combinación
 \section{Ejercicio sobre Regresión Lineal}
 \textbf{Este ejercicio ajusta modelos de regresión a vectores de características extraidos de imágenes de digitos manuscritos. En particular se extraen dos característcas concretas: el valor medio del nivel de gris y simetría del número respecto de su eje vertical. Solo se seleccionarán para este ejercicio las imágenes de los números 1 y 5.}
 
-\subsection{Estimar un modelo de regresión lineal a partir de los datos proporcionados de dichos números (Intensidad promedio, Simetria) usando tanto el algoritmo de la pseudoinversa como Gradiente descendente estocástico (SGD).}
+\subsection{Estimar un modelo de regresión lineal a partir de los datos proporcionados de dichos números (Intensidad promedio, Simetría) usando tanto el algoritmo de la pseudoinversa como Gradiente descendente estocástico (SGD).}
 \textbf{Las etiquetas serán \{-1, 1\}, una para cada vector de cada uno de los números. Pintar las soluciones obtenidas junto con los datos usados en el ajuste. Valorar la bondad del resultado usando $E_{in}$ y $E_{out}$ (para $E_{out}$ calcular las predicciones usando los datos del fichero de test). (usar \texttt{Regress\_Lin(datos, label)} como llamada para la función (opcional)).}
+
+El código implementado en este apartado se encuentra en el archivo \texttt{ej2.py}. En él se escribieron las funciones correspondientes al algoritmo del gradiente descendente estocástico (SGD) en la función \texttt{sgd} y el de la pseudoinversa, en la función \texttt{pseudoinverse}. Ambos toman como parámetros una matriz, \texttt{x}, que contendrá las características de los ejemplos dados (intensidad promedio y simetría, además de un 1 ya que al buscamos un hiperplano con término independiente) y un vector, \texttt{y}, que contiene la clase asociada a dichos elementos. La función \texttt{sgd} además de estos toma como parámetros: \texttt{lr}, la tasa de aprendizaje; \texttt{max\_iters}, número máximo de iteraciones; y \texttt{tam\_minibatch}, el tamaño de cada \textit{minibatch}.
+
+Para la ejecución se han utilizado los conjuntos \texttt{x}, \texttt{y} proporcionados, \texttt{lr} = 0.1, \texttt{max\_iters} = 75 y \texttt{tam\_minibatch} = 75, pues empíricamente se ha comprobado que eran los valores que mejores resultados daban.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{results2}
+    \caption{Resultado del ajuste con ambos algoritmos.}
+    \label{fig:2c}
+\end{figure}
+
+En la Figura \ref{fig:2c} observamos las rectas resultantes del ajuste junto a los datos con los que se realizó el mismo (coloreados según su clase). Destaca el hecho de que las rectas separan las clases bastante bien, aunque no son iguales. La clase -1 (número 1) se encuentra bastante concentrada, con puntos excepcionales con simetría menor que -2.5, las rectas determinan bien las clases de estos puntos si obviamos estas excepciones. La clase 1 (número 5) está un poco más dispersa, las diferencias en los resultados vienen provocados por la correcta clasificación de los puntos que se alejan más del ``centroide'' de la clase. Para saber realmente qué ajuste fue mejor debemos comparar el error obtenido, no solo con los datos de entrenamiento sino también con los de prueba.
+
+\begin{table}[H]
+\large
+\centering
+\caption{Errores obtenidos con ambos algoritmos.}
+\label{tab:21}
+\begin{tabular}{lll}
+\toprule
+ & $E_{in}$ & $E_{out}$ \\ \midrule
+SGD & 0.082238870568555 & 0.13967094647032663 \\
+Pseudoinversa & 0.07918658628900395 & 0.13095383720052578 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+En la Tabla \ref{tab:21} podemos comparar los errores obtenidos con ambos algoritmos. Como se intuye al observar las rectas resultantes, los errores son muy pequeños y ambos del mismo orden. En ambos casos, como es natural, los errores cometidos con el conjunto de entrenamiento son menores que con el conjunto de \textit{test}. Esto es natural porque el ajuste se ha realizado utilizando los datos del conjunto de entrenamiento, los datos de prueba no eran conocidos y solo se usaron a posteriori para medir el error. El algoritmo de la pseudoinversa consigue un ligero mejor resultado (una diferencia tan pequeña debe ser causada por pocos puntos), pero como el gradiente descendente estocástico tiene más parámetros que ajustar, no podemos asegurar que este método sea mejor en general.
+
+\subsection{En este apartado exploramos cómo se transforman los errores $E_{in}$ y $E_{out}$ cuando aumentamos la complejidad del modelo lineal usado}
+\textbf{Ahora hacemos uso de la función \texttt{simula\_unif(N, 2, size)} que nos devuelve $N$ coordenadas 2D de puntos uniformemente muestreados dentro del cuadrado definido por [-size, size] $\times$ [-size, size]}
+
+\textbf{a) Generar una muestra de entrenamiento de N = 1000 puntos en el cuadrado $\mathcal{X} = [-1, 1] \times [-1, 1]$. Pintar el mapa de puntos 2D. (ver función de ayuda)}
+
+Se implementa la función \texttt{simula\_unif} para generar la muestra, llamándola con los parámetros del enunciado se obtiene la muestra que podemos ver en la Figura \ref{fig:22a}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{muestra2d}
+    \caption{Muestra formada por 1000 elementos uniformemente tomados en el cuadrado $[-1,1]\times[-1,1]$.}
+    \label{fig:22a}
+\end{figure}
+
+\textbf{b) Consideremos la función $f(x_1, x_2) = sign((x_1 - 0,2)^2 + x_2^2 - 0,6)$ que usaremos para asignar una etiqueta a cada punto de la muestra anterior. Introducimos ruido sobre las etiquetas cambiando aleatoriamente el signo de un 10\% de las mismas. Pintar el mapa de etiquetas obtenido.}
+
+Para obtener las clases de los puntos creados anteriormente se implementó la función \texttt{classes} que recibe como parámetro una matriz \texttt{x} de tamaño $N\times 2$ y calcula la función $f$ para cada una de las muestras, a continuación introduce un error sobre el 10\% de las clases. En la Figura \ref{fig:22b} se puede observar las clases, diferenciadas por el color, que toman los puntos de la muestra. Notamos que las clases no son separables mediante una recta, lo que sospechamos que nos dará problemas al realizar la regresión.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{clases2d}
+    \caption{Muestra formada por 1000 elementos uniformemente tomados en el cuadrado $[-1,1]\times[-1,1]$, con su clase correspondiente.}
+    \label{fig:22b}
+\end{figure}
+
+\textbf{c) Usando como vector de características $(1, x_1 , x_2)$ ajustar un modelo de regresión lineal al conjunto de datos generado y estimar los pesos w. Estimar el error de ajuste $E_{in}$ usando Gradiente Descendente Estocástico (SGD).}
+
+Utilizando las funciones ya definidas para el ejercicio anterior se ajusta un modelo mediante gradiente descendente estocástico (se toman los mismos parámetros), el código correspondiente se recoge en la función \texttt{experiment} que utiliza \texttt{get\_set} para obtener el conjunto. El error $E_{in}$ obtenido es de 0.9203296958016401, bastante más grande que en el caso anterior, también se ha creado un conjunto de prueba para calcular el $E_{out}$ que es de 0.9373964722120457. No es de extrañar que hayamos obtenido un error mucho mayor que el caso anterior, pues los datos no se pueden separar en 2 clases mediante una recta. En la Figura \ref{fig:22c} se encuentra pintada la recta obtenida con los datos utilizados para ajustarlos. Observamos que la recta no logra dividir a las clases, hará falta realizar otro tipo de aproximación al problema.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{results22}
+    \caption{Muestra formada por 1000 elementos uniformemente tomados en el cuadrado $[-1,1]\times[-1,1]$, con su clase correspondiente y la recta ajustada mediante SGD que las intenta separar.}
+    \label{fig:22c}
+\end{figure}
+
+\textbf{d) Ejecutar todo el experimento definido por (a)-(c) 1000 veces (generamos 1000 muestras diferentes) y calcular el valor medio de los errores $E_{in}$ de las 1000 muestras, generar 1000 puntos nuevos por cada iteración y calcular con ellos el valor de $E_{out}$ en dicha iteración. Calcular el valor medio de $E_{out}$ en todas las iteraciones.\\ 
+e) Valore que tan bueno considera que es el ajuste con este modelo lineal a la vista de los valores medios obtenidos de $E_in$ y $E_out$}
+
+Tras repetir el experimento 1000 veces se obtienen los siguientes errores:\[
+E_{in} = 0.9278055100760753,
+E_{out} = 0.9327054029399249.\]
+
+Como ya se comentó, una recta no se puede separar bien a estos datos por cómo están distribuidas las clases. No importa si repetimos el experimento 1, 5 o 1000 veces, los errores obtenidos seguirán siendo bastante grandes. Hemos asegurado que no fue una mala ejecución del SGD (como tiene cierta aleatoriedad podría dar resultados diferentes en distintas ejecuciones) en todas las ejecuciones del mismo se obtienen malos ajustes. Por ello, concluimos que este modelo lineal no es adecuado para ajustar esta muestra.
+
+\textbf{Repetir el mismo experimento anterior pero usando características no lineales. Ahora usaremos el siguiente vector de características: $\Phi_2 (x) = (1, x_1 , x_2 , x_1 x_2 , x^2_1, x^ 2_2)$. Ajustar el nuevo modelo de regresión lineal y calcular el nuevo vector de pesos $\hat{w}$. Calcular los errores promedio de $E_{in}$ y $E_out$.}
+
+Para este experimento se ha creado la función \texttt{experiment\_nolineal} que no es más que una adaptación de la función \texttt{experiment} al caso no lineal que queremos tratar. Repetimos el experimento 1000 veces y obtenemos los siguientes errores medios:\[
+
+\]
+
+
+
 
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
