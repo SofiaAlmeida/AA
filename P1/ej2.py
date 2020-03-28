@@ -103,7 +103,8 @@ def graph3d(x, y, w, title):
 	ax.legend(loc='upper left')
 
 	ax.view_init(elev=10., azim=312)
-	plt.savefig("./prueba/" + title +"%312.png")
+	plt.show()
+	#plt.savefig("./prueba/" + title +"%312.png")
 	plt.clf()
 
 # Gráfica de resultados - clasificación con 2 resultados, uno de sgd y otro de pseudoinversa
@@ -132,8 +133,8 @@ def graph(x, y, w, w1):
 	
 	# Añadimos cuadrícula
 	plt.grid(True, color="white", linewidth = 1)
-	
-	plt.savefig("./fig/results2.png")
+	plt.show()
+	#plt.savefig("./fig/results2.png")
 
 
 # Lectura de los datos de entrenamiento
@@ -162,6 +163,7 @@ graph(x, y, w_sgd, w)
 print ('\nBondad del resultado para el algoritmo de la pseudoinversa:\n')
 print ("Ein: ", Err(x, y, w))
 print ("Eout: ", Err(x_test, y_test, w))
+input("\n--- Pulsar tecla para continuar ---\n")
 
 
 #------------------------------Ejercicio 2 -------------------------------------#
@@ -190,7 +192,8 @@ def draw_points(points):
 	
 	# Añadimos cuadrícula
 	plt.grid(True, color="white", linewidth = 1)
-	plt.savefig("./fig/muestra2d.png")
+	plt.show()
+	#plt.savefig("./fig/muestra2d.png")
 
 # Calcula el valor f de una matriz x, Nx2
 def f(x1, x2):
@@ -206,6 +209,14 @@ def classes(x):
 	y[np.random.rand(*y.shape)>=0.9] *= -1 	
 	return y
 	
+# Devuelve el vector de clases del conjunto x(Nx2)
+# La clase viene determinada por la función f
+# Añade ruido cambiando el 10% de las etiquetas
+def classes_nonoise(x):
+	# Calculamos la clase determinada por f
+	y = np.array([f(x[i,0], x[i,1]) for i in range(0, x.shape[0])])
+	return y
+
 # Devuelve una muestra x y un vector y con las clases correspondientes
 def get_set(N, size):
 	sample = simula_unif(N, 2, size)
@@ -225,6 +236,18 @@ def get_set_nolineal(N, size):
 	x = np.array([[1, x1, x2, x1*x2, x1**2, x2**2] for x1, x2 in sample])
  	
 	return x, y
+
+# Devuelve una muestra x y un vector y con las clases correspondientes (sin errores)
+# x = 1, x_1, x_2, x_1*x_2, x_1^2, x_2^2
+def get_set_nolineal_nonoise(N, size):
+	sample = simula_unif(N, 2, size)
+	y = classes_nonoise(sample)
+
+	# Añadimos una columna de unos a la muestra
+	x = np.array([[1, x1, x2, x1*x2, x1**2, x2**2] for x1, x2 in sample])
+ 	
+	return x, y
+
 
 # Dibuja el conjunto de puntos points y los colorea según su clase y
 # points: array Nx2
@@ -253,9 +276,11 @@ def draw_classes(points, y):
 	plt.grid(True, color="white", linewidth = 1)
 
 	plt.subplots_adjust(right=0.8)	
-	plt.savefig("./fig/clases2d.png")
+	plt.show()
+	#plt.savefig("./fig/clases2d.png")
 
 # Gráfico de los puntos, coloreando su clase y pintando la recta dada por w
+# Caso lineal
 def plot(x, y, w):
 	sns.set()
 	fig = plt.figure()
@@ -274,13 +299,49 @@ def plot(x, y, w):
 	ax.add_artist(legend1)
 	ax.set_xlabel('')
 	ax.set_ylabel('')	
-	ax.set_title("Recta ajustada mediante SGD")	
+	ax.set_title("Ajuste mediante SGD")	
 
 	# Añadimos cuadrícula
 	plt.grid(True, color="white", linewidth = 1)
 	plt.subplots_adjust(right=0.8)		
 
-	plt.savefig("./fig/results22.png")
+	plt.show()
+	#plt.savefig("./fig/results22.png")
+
+# Gráfico de los puntos, coloreando su clase y pintando la recta dada por w
+# caso no lineal
+def plot_nolineal(x, y, w, title = 'nolineal'):
+	sns.set()
+	fig = plt.figure()
+	ax = fig.add_subplot()
+	# Plot outputs
+	colors = ['tab:pink', 'tab:blue']
+
+	scatter = ax.scatter(x[:,1], x[:,2], c = y, alpha = 0.6, edgecolors='none', cmap =matplotlib.colors.ListedColormap(colors))
+
+	delta = 0.025
+	a = np.arange(-1.0, 1.0, delta)
+	b = np.arange(-1.0, 1.0, delta)
+	X, Y = np.meshgrid(a, b)
+	zs = np.array([np.dot([1, a, b, a*b, a*a, b*b], w) for a,b in zip(np.ravel(X), np.ravel(Y))])
+	Z = zs.reshape(X.shape)
+	CS = ax.contour(X, Y, Z, levels = 0, alpha = 0.6, colors = ['black'])
+	
+	ax.set_xlim(-1.1, 1.1)
+	ax.set_ylim(-1.1, 1.1)
+
+	# Leyenda
+	legend1 = ax.legend(*scatter.legend_elements(), loc=(1.04,0), title="Clases")
+	ax.add_artist(legend1)
+	ax.set_xlabel('')
+	ax.set_ylabel('')	
+	ax.set_title("Ajuste no lineal")	
+
+	# Añadimos cuadrícula
+	plt.grid(True, color="white", linewidth = 1)
+	plt.subplots_adjust(right=0.8)		
+	plt.show()
+	#plt.savefig("./fig/" + title + ".png")
 
 # Generamos 2 conjuntos de datos, llamamos a sgd y calculamos los errores
 # p = True genera las gráficas asociadas al conjunto x
@@ -312,10 +373,29 @@ def experiment_nolineal(N, size, lr, max_iters, tam_minibatch, p = False):
 	E_out = Err(x_test, y_test, w)
 	
 	if(p):
-		plot(x, y, w)
+		plot_nolineal(x, y, w)
 
 	return w, E_in, E_out
 	
+# Generamos 2 conjuntos de datos, llamamos a sgd y calculamos los errores
+# Datos sin error en el 10%
+# p = True genera las gráficas asociadas al conjunto x
+def experiment_nonoise(N, size, lr, max_iters, tam_minibatch, p = False):
+	# Creamos conjunto de training y test
+	x, y = get_set_nolineal_nonoise(N, size)
+	x_test, y_test = get_set_nolineal_nonoise(N, size)
+
+	w = sgd(x, y, lr, max_iters, tam_minibatch, np.zeros(6))
+	E_in = Err(x, y, w)
+	E_out = Err(x_test, y_test, w)
+	
+	if(p):
+		draw_points(x[:,1:])
+		draw_classes(x[:,1:], y)
+		plot_nolineal(x, y, w, 'Sin ruido')
+
+	return w, E_in, E_out
+
 
 # EXPERIMENTO	
 # a) Muestra de entrenamiento N = 1000, cuadrado [-1,1]x[-1,1]	
@@ -357,6 +437,7 @@ input("\n--- Pulsar tecla para continuar ---\n")
 # -------------------------------------------------------------------
 
 # Repetir para phi
+experiment_nolineal(N, size, 0.1, 75, 75, True)
 Ein = np.array([])
 Eout = np.array([])
 for i in range(0, 1000):
@@ -366,8 +447,16 @@ for i in range(0, 1000):
 
 Ein_media = np.mean(Ein)
 Eout_media = np.mean(Eout)
-print ('Bondad del resultado para características no lineales:\n')
+print ('Bondad del resultado para características no lineales (tras 1000 repeticiones):\n')
 print ("Ein: ", Ein_media)
 print ("Eout: ", Eout_media)
 input("\n--- Pulsar tecla para continuar ---\n")
+
+#-----------------
+# probamos el caso no lineal sin datos erróneos
+w, ein, eout = experiment_nonoise(N, size, 0.1, 75, 75, True)
+print("Resultado ajuste no lineal sin ruido: ")
+print ("Ein: ", ein)
+print ("Eout: ", eout)
+
 

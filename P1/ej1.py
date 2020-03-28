@@ -102,7 +102,8 @@ def gd_grafica(w, lr, grad_fun, fun, max_iters = 10):
     plt.xlabel('Iteraciones')
     plt.ylabel('f(x,y)')
     plt.title('Valor f(x,y), lr = ' + str(lr))
-    plt.savefig('fig/1lr' + str(lr) + '.png')
+    plt.show()    
+    #plt.savefig('fig/1lr' + str(lr) + '.png')
     plt.clf()
 
 print ('Resultados ejercicio 2\n')

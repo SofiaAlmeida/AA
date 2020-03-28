@@ -25,7 +25,8 @@ ax.set_ylabel('Eje v')
 ax.set_zlabel('Valor E(u,v)')
 ax.set_title('Representación E(u,v)')
 
-plt.savefig('./fig/E1.png')
+plt.show()
+#plt.savefig('./fig/E1.png')
 plt.clf()
 
 def fun2(x,y):
@@ -44,7 +45,8 @@ ax.set_xlabel('Eje x')
 ax.set_ylabel('Eje y')
 ax.set_zlabel('Valor f(x,y)')
 ax.set_title('Representación f(x,y)')
-plt.savefig('./fig/f1.png')
+plt.show()
+#plt.savefig('./fig/f1.png')
 plt.clf()
 
 fig = plt.figure()
@@ -66,5 +68,6 @@ ax.set_xlabel('Eje x')
 ax.set_ylabel('Eje y')
 ax.set_zlabel('Valor f(x,y)')
 ax.legend(loc='upper left')
-plt.savefig('./fig/f1+pts.png')
+plt.show()
+#plt.savefig('./fig/f1+pts.png')
 
