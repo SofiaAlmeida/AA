@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #-------------------------------------------------------------------
 import numpy as np
+import matplotlib
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -74,13 +75,93 @@ def draw_points(points, title = "", save = False, name = " "):
 
 
 #-------------------------------------------------------------------
-# Devolvemos el valor f para un conjunto de puntos Nx2
+# Gráfico de los puntos (x), coloreando su clase (y) y pintando la función dada por fun
+def plot(x, y, fun, save = False, title = "", name = "", xlim = [-1, 1], ylim = [-1, 1]):
+    sns.set()
+    fig = plt.figure()
+    ax = fig.add_subplot()
+    
+    # Plot points
+    colors = ['tab:pink', 'tab:blue']
+    scatter = ax.scatter(x[:,0], x[:,1], c = y, alpha = 0.6, edgecolors='none', cmap =matplotlib.colors.ListedColormap(colors))
+
+    # Plot function 
+    plt.plot(x[:,1], (-w[0] - w[1]*x[:,1]) / w[2], alpha = 0.6, color = 'black', linewidth=1.3, label = 'SGD')
+
+    delta = 0.025
+    a = np.arange(xlim[0], xlim[1], delta)
+    b = np.arange(ylim[0], ylim[1], delta)
+    X, Y = np.meshgrid(a, b)
+    zs = np.array([fun(a, b) for a,b in zip(np.ravel(X), np.ravel(Y))])
+    Z = zs.reshape(X.shape)
+    CS = ax.contour(X, Y, Z, levels = 0, alpha = 0.6, colors = ['black'])
+
+        
+    #ax.set_xlim(-1.1, 1.1)
+    #ax.set_ylim(-1.1, 1.1)
+
+    # Leyenda
+    legend1 = ax.legend(*scatter.legend_elements(), loc=(1.04,0), title="Clases")
+    ax.add_artist(legend1)
+    ax.set_xlabel('')
+    ax.set_ylabel('')	
+    ax.set_title(title)	
+
+    # Añadimos cuadrícula
+    #	plt.grid(True, color="white", linewidth = 1)
+    #	plt.subplots_adjust(right=0.8)		
+
+    if save:
+        plt.savefig("./fig/" + name + ".png")
+    else:
+        plt.show()
+
+# Gráfico de los puntos (x), coloreando su clase (y) y pintando la recta dada por a y b
+def plot_line(x, y, a, b, save = False, title = "", name = "", xlim = [-1, 1], ylim = [-1, 1]):
+    sns.set()
+    fig = plt.figure()
+    ax = fig.add_subplot()
+    
+    # Plot points
+    colors = ['tab:pink', 'tab:blue']
+    scatter = ax.scatter(x[:,0], x[:,1], c = y, alpha = 0.6, edgecolors='none', cmap =matplotlib.colors.ListedColormap(colors))
+
+    # Plot line
+    delta = 0.1
+    A = np.arange(xlim[0] - 5, xlim[1] + 5, delta)
+    B = np.arange(ylim[0] - 5, ylim[1] + 5, delta)
+    X, Y = np.meshgrid(A, B)
+    zs = np.array([line(x1, y1, a, b) for x1,y1 in zip(np.ravel(X), np.ravel(Y))])
+    Z = zs.reshape(X.shape)
+    CS = ax.contour(X, Y, Z, levels = 0, alpha = 0.6, colors = ['black'])
+    CS.collections[1].set_label("y - " + f"{a:.4f}" + "x - (" + f"{b:.4f}" + ")")
+
+    # Leyenda
+    legend1 = ax.legend(*scatter.legend_elements(), loc=(1.02,0.1), title="Clases")
+    plt.legend(loc = (1.02, 0))
+    ax.add_artist(legend1)
+    ax.set_xlabel('')
+    ax.set_ylabel('')	
+    ax.set_title(title)		
+
+    if save:
+        plt.savefig("./fig/" + name + ".png", bbox_inches="tight")
+    else:
+        plt.show()
+
+
+#-------------------------------------------------------------------
+# Devolvemos el valor signo(f) para un conjunto de puntos Nx2
 # f(x,y) = y - ax -b
-def f(x, y, a, b):
+def f(points, a, b):
     vector_b =  b*np.array(np.ones((points.shape[0], 1)))
-    f = points[:,0] - a * points[:,1] - vector_b[:,0]
+    f = points[:,1] - a * points[:,0] - vector_b[:,0]
     return np.sign(f)
-	
+
+#-------------------------------------------------------------------
+# f(x,y) = y - ax - b
+def line(x, y, a, b):
+    return y - a * x - b
 
 #-------------------------------------------------------------------
 # Ejercicio 1 a ----------------------------------------------------
@@ -99,6 +180,12 @@ draw_points(points1b, "", save, "points1b")
 
 #-------------------------------------------------------------------
 # Ejercicio 2 a ----------------------------------------------------
-a, b = simula_recta([-50,50])
+N = 500
+dim = 2
+rango = [-50, 50]
+intervalo = [-50, 50]
+points2 = simula_unif(N, dim, rango)
+a, b = simula_recta(intervalo)
 y = f(points2, a, b)
-print(prueba)
+
+plot_line(points2, y, a, b, save, name = "recta", xlim = rango, ylim = rango)

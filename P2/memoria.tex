@@ -212,7 +212,21 @@ Ejecutando la función \texttt{simula\_gaus} con los parámetros pedidos se obti
     \label{fig:1b}
 \end{figure}
 
-\subsectionc{Con ayuda de la función \texttt{simula\_unif()} generar una muestra de puntos 2D a los que vamos añadir una etiqueta usando el signo de la función $f(x, y) = y − ax − b$, es decir el signo de la distancia de cada punto a la recta simulada con \texttt{simula\_recta()}.}
+\subsection{Con ayuda de la función \texttt{simula\_unif()} generar una muestra de puntos 2D a los que vamos añadir una etiqueta usando el signo de la función $f(x, y) = y - ax - b$, es decir el signo de la distancia de cada punto a la recta simulada con \texttt{simula\_recta()}.}
+\subsubsection{Dibujar una gráfica donde los puntos muestren el resultado de su etiqueta, junto con la recta usada para ello. (Observe que todos los puntos están bien clasificados respecto de la recta).}
+
+Se generan los puntos como en el caso anterior, en este caso tomamos una muestra de 500 puntos en el mismo rango. Se les asigna su clase mediante la función \texttt{f}, que toma los parámetros \texttt{a, b} obtenidos al ejecutar \texttt{simula\_recta}. Se ha utilizado la función \texttt{plot\_line} para generar la gráfica.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{recta}
+    \caption{Puntos generados con \texttt{simula\_unif}, clase asignada a partir del signo de la recta.}
+    \label{fig:recta}
+\end{figure}
+
+En la Figura \ref{fig:recta} vemos las puntos generados coloreados según su clase y notamos cómo la recta es una frontera perfecta entre ambas. Esto es debido a que las etiquetas se asignaron en función al signo obtenido por la función que define la recta.
+
+\subsubsection{Modifique de forma aleatoria un 10 \% etiquetas positivas y otro 10 \% de negativas y guarde los puntos con sus nuevas etiquetas. Dibuje de nuevo la gráfica anterior. (Ahora hay puntos mal clasificados respecto de la recta).}
 
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
