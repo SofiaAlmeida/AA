@@ -4,10 +4,12 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 import seaborn as sns
+from sklearn.metrics import accuracy_score
 
 #-------------------------------------------------------------------
 # Fijamos la semilla
 np.random.seed(1)
+
 # Guardamos o no imágenes
 save = True
 
@@ -76,43 +78,43 @@ def draw_points(points, title = "", save = False, name = " "):
 
 #-------------------------------------------------------------------
 # Gráfico de los puntos (x), coloreando su clase (y) y pintando la función dada por fun
-def plot(x, y, fun, save = False, title = "", name = "", xlim = [-1, 1], ylim = [-1, 1]):
+def plot(x, y, fun, save = False, title = "", name = "", legend = "", xlim = [-1, 1], ylim = [-1, 1]):
     sns.set()
     fig = plt.figure()
     ax = fig.add_subplot()
-    
-    # Plot points
+    ax.set_facecolor('white')
     colors = ['tab:pink', 'tab:blue']
-    scatter = ax.scatter(x[:,0], x[:,1], c = y, alpha = 0.6, edgecolors='none', cmap =matplotlib.colors.ListedColormap(colors))
-
+    
     # Plot function 
-    plt.plot(x[:,1], (-w[0] - w[1]*x[:,1]) / w[2], alpha = 0.6, color = 'black', linewidth=1.3, label = 'SGD')
-
-    delta = 0.025
-    a = np.arange(xlim[0], xlim[1], delta)
-    b = np.arange(ylim[0], ylim[1], delta)
-    X, Y = np.meshgrid(a, b)
+    delta = 0.25
+    A = np.arange(xlim[0] - 5, xlim[1] + 5, delta)
+    B = np.arange(ylim[0] - 5, ylim[1] + 5, delta)
+    X, Y = np.meshgrid(A, B)
     zs = np.array([fun(a, b) for a,b in zip(np.ravel(X), np.ravel(Y))])
     Z = zs.reshape(X.shape)
-    CS = ax.contour(X, Y, Z, levels = 0, alpha = 0.6, colors = ['black'])
+    # Filled contour
+    CS = ax.contourf(X, Y, Z, levels = 0, alpha = 0.15)
+    # Contour
+    CS2 = ax.contour(X, Y, Z, levels = 0, alpha = 0.3, colors = ['black'])
+    CS2.collections[1].set_label(legend)
+    
+    # Plot points
+    scatter = ax.scatter(x[:,0], x[:,1], c = y, alpha = 0.6, edgecolors='none', cmap =matplotlib.colors.ListedColormap(colors))
 
-        
-    #ax.set_xlim(-1.1, 1.1)
-    #ax.set_ylim(-1.1, 1.1)
-
-    # Leyenda
-    legend1 = ax.legend(*scatter.legend_elements(), loc=(1.04,0), title="Clases")
+    # Legend
+    legend1 = ax.legend(*scatter.legend_elements(), loc=(1.02,0.1), title="Clases")
+    plt.legend(loc = (1.02, 0))
     ax.add_artist(legend1)
     ax.set_xlabel('')
     ax.set_ylabel('')	
     ax.set_title(title)	
 
-    # Añadimos cuadrícula
-    #	plt.grid(True, color="white", linewidth = 1)
-    #	plt.subplots_adjust(right=0.8)		
+    # Add grid
+    plt.grid(True, color="gray", linewidth = 1, alpha = 0.3)
+    plt.subplots_adjust(right=0.8)		
 
     if save:
-        plt.savefig("./fig/" + name + ".png")
+        plt.savefig("./fig/" + name + ".png", bbox_inches="tight")
     else:
         plt.show()
 
@@ -163,6 +165,54 @@ def f(points, a, b):
 def line(x, y, a, b):
     return y - a * x - b
 
+
+#-------------------------------------------------------------------
+# Cambia el 10% de las etiquetas positivas y el 10% de las etiquetas negativas
+def modify_class(y):
+    # Almacenamos los índices de los 1 y -1 originales
+    index1 = np.where(y == 1)[0]
+    index_1 = np.where(y == -1)[0]
+
+    # Seleccionamos los índices a modificar
+    mod1 = np.random.choice(index1, round(0.1*index1.shape[0]))
+    mod_1 = np.random.choice(index_1, round(0.1*index_1.shape[0]))
+
+    # Alteramos el 10% de los valores de cada clase
+    y[mod1] = -1
+    y[mod_1] = 1
+
+    return y
+
+#-------------------------------------------------------------------
+#f1(x,y) = (x-10)² + (y-20)²-400
+def f1(x,y):
+    return (x - 10)**2 + (y-20)**2 - 400
+
+#-------------------------------------------------------------------
+# f2(x,y) = 0.5(x+10)² + (y-20)²- 400
+def f2(x,y):
+    return 0.5 * (x+10)**2 + (y-20)**2 - 400
+
+
+#-------------------------------------------------------------------
+# f3(x,y) = 0.5(x-10)² + (y-20)²- 400
+def f3(x,y):
+    return 0.5 * (x-10)**2 - (y+20)**2 - 400
+
+#-------------------------------------------------------------------
+# f4(x,y) = y - 20x² - 5x + 3
+def f4(x,y):
+    return y - 20*x**2 - 5*x + 3
+
+
+#-------------------------------------------------------------------
+def percentage(x, y, fun):
+    y_pred = np.sign(fun(x[:,0], x[:,1]))
+    score = accuracy_score(y, y_pred)
+    print(score)
+    return y
+    
+
 #-------------------------------------------------------------------
 # Ejercicio 1 a ----------------------------------------------------
 # Dibujamos una nube de puntos
@@ -189,3 +239,21 @@ a, b = simula_recta(intervalo)
 y = f(points2, a, b)
 
 plot_line(points2, y, a, b, save, name = "recta", xlim = rango, ylim = rango)
+
+
+# Ejercicio 2 a ----------------------------------------------------
+y = modify_class(y)
+
+plot_line(points2, y, a, b, save, name = "recta+ruido", xlim = rango, ylim = rango)
+
+
+# Ejercicio 2 b ----------------------------------------------------
+plot(points2, y, f1, save, "", name = "f1", xlim = rango, ylim = rango, legend = "(x-10)² + (y-20)²- 400")
+percentage(points2, y, f1)
+
+
+plot(points2, y, f2, save, "", name = "f2", xlim = rango, ylim = rango, legend = "0.5(x+10)² + (y-20)²- 400")
+
+plot(points2, y, f3, save, "", name = "f3", xlim = rango, ylim = rango, legend = "0.5(x-10)² + (y-20)²- 400")
+
+plot(points2, y, f4, save, "", name = "f4", xlim = rango, ylim = rango, legend = "y - 20x² - 5x + 3")

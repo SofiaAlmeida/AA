@@ -58,7 +58,8 @@
 \usepackage{graphicx} % Required for including pictures
 \usepackage{wrapfig} % Allows in-line images
 \usepackage[usenames,dvipsnames]{color} % Coloring code
-\usepackage{subcaption}
+%\usepackage{subcaption}
+\usepackage{subfig}
 \graphicspath{{./fig/}}
 
 
@@ -110,6 +111,10 @@
 
 %%% Subsubsection con letras
 \renewcommand{\thesubsubsection}{\thesubsection.\alph{subsubsection}}
+
+%%% Itemize, enumitem
+\usepackage{paralist}
+\usepackage{enumitem}
 %----------------------------------------------------------------------------------------
 %	TÍTULO
 %----------------------------------------------------------------------------------------
@@ -227,6 +232,39 @@ Se generan los puntos como en el caso anterior, en este caso tomamos una muestra
 En la Figura \ref{fig:recta} vemos las puntos generados coloreados según su clase y notamos cómo la recta es una frontera perfecta entre ambas. Esto es debido a que las etiquetas se asignaron en función al signo obtenido por la función que define la recta.
 
 \subsubsection{Modifique de forma aleatoria un 10 \% etiquetas positivas y otro 10 \% de negativas y guarde los puntos con sus nuevas etiquetas. Dibuje de nuevo la gráfica anterior. (Ahora hay puntos mal clasificados respecto de la recta).}
+
+En la función \texttt{modify\_classes} modificamos un 10\% de las etiquetas positivas y un 10\% de las etiquetas negativas. Pintamos la gráfica resultante, que podemos ver en la Figura \ref{fig:2b}. La gráfica es similar a la del apartado anterior, con la diferencia de que esta vez la recta no serpara correctamente a todos los puntos, al haber añadido ruido hay puntos que quedan mal clasificados.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{recta+ruido}
+    \caption{Puntos generados con \texttt{simula\_unif}, clase asignada a partir del signo de la recta y posterior adición de ruido al 10\% de las etiquetas de cada clase.}
+    \label{fig:2b}
+\end{figure}
+
+\subsection{Supongamos ahora que las siguientes funciones definen la frontera de clasificación de los puntos de la muestra en lugar de una recta:}\linespread{-10}
+\textbf{
+  \begin{itemize}[topsep=-5pt]
+  \item $f (x, y) = (x - 10)^2 + (y - 20)^2 - 400$
+  \item $f (x, y) = 0,5(x + 10)^2 + (y - 20)^2 - 400$
+  \item $f (x, y) = 0,5(x - 10)^2 - (y + 20)^2 - 400$
+  \item $f (x, y) = y - 20x^2 - 5x + 3$
+  \end{itemize}
+Visualizar el etiquetado generado en 2b junto con cada una de las gráficas de cada una de las funciones. Comparar las formas de las regiones positivas y negativas de estas nuevas funciones con las obtenidas en el caso de la recta ¿Son estas funciones más complejas mejores clasificadores que la función lineal? ¿En que ganan a la función lineal? Explicar el razonamiento.}
+\begin{figure}[H]
+\def\tabularxcolumn#1{m{#1}}
+\begin{tabularx}{\linewidth}{@{}cXX@{}}
+%
+\begin{tabular}{cc}
+\subfloat[$f (x, y) = (x - 10)^2 + (y - 20)^2 - 400$.]{\includegraphics[width=0.5\textwidth]{f1}} 
+   & \subfloat[$f (x, y) = 0,5(x + 10)^2 + (y - 20)^2 - 400$.]{\includegraphics[width=0.5\textwidth]{f2}}\\
+\subfloat[$f (x, y) = 0,5(x - 10)^2 - (y + 20)^2 - 400$.]{\includegraphics[width=0.5\textwidth]{f3}} 
+   & \subfloat[$f (x, y) = y - 20x^2 - 5x + 3$.]{\includegraphics[width=0.5\textwidth]{f4}}\\
+\end{tabular}
+\end{tabularx}
+
+\caption{Fronteras de clasificación dadas por $f$.}\label{f:13}
+\end{figure}
 
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
