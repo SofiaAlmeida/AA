@@ -217,10 +217,10 @@ Ejecutando la función \texttt{simula\_gaus} con los parámetros pedidos se obti
     \label{fig:1b}
 \end{figure}
 
-\subsection{Con ayuda de la función \texttt{simula\_unif()} generar una muestra de puntos 2D a los que vamos añadir una etiqueta usando el signo de la función $f(x, y) = y - ax - b$, es decir el signo de la distancia de cada punto a la recta simulada con \texttt{simula\_recta()}.}
+\subsection{Vamos a valorar la influencia del rudio en la seleccion de la complejidad de la clase de funciones. Con ayuda de la función \texttt{simula\_unif(100, 2, [-50,50])} generar una muestra de puntos 2D a los que vamos añadir una etiqueta usando el signo de la función $f(x, y) = y - ax - b$, es decir el signo de la distancia de cada punto a la recta simulada con \texttt{simula\_recta()}.}
 \subsubsection{Dibujar una gráfica donde los puntos muestren el resultado de su etiqueta, junto con la recta usada para ello. (Observe que todos los puntos están bien clasificados respecto de la recta).}
 
-Se generan los puntos como en el caso anterior, en este caso tomamos una muestra de 500 puntos en el mismo rango. Se les asigna su clase mediante la función \texttt{f}, que toma los parámetros \texttt{a, b} obtenidos al ejecutar \texttt{simula\_recta}. Se ha utilizado la función \texttt{plot\_line} para generar la gráfica.
+Se generan los puntos como en el caso anterior, en este caso tomamos una muestra de 100 puntos en el mismo rango. Se les asigna su clase mediante la función \texttt{f}, que toma los parámetros \texttt{a, b} obtenidos al ejecutar \texttt{simula\_recta}. Se ha utilizado la función \texttt{plot\_line} para generar la gráfica.
 
 \begin{figure}[H]
     \centering
@@ -229,7 +229,7 @@ Se generan los puntos como en el caso anterior, en este caso tomamos una muestra
     \label{fig:recta}
 \end{figure}
 
-En la Figura \ref{fig:recta} vemos las puntos generados coloreados según su clase y notamos cómo la recta es una frontera perfecta entre ambas. Esto es debido a que las etiquetas se asignaron en función al signo obtenido por la función que define la recta.
+En la Figura \ref{fig:recta} vemos los puntos generados coloreados según su clase y notamos cómo la recta es una frontera perfecta entre ambas. Esto es debido a que las etiquetas se asignaron en función al signo\footnote{De aquí en adelante se considerará que signo(0) = 1 a la hora de asignar las clases.} obtenido por la función que define la recta.
 
 \subsubsection{Modifique de forma aleatoria un 10 \% etiquetas positivas y otro 10 \% de negativas y guarde los puntos con sus nuevas etiquetas. Dibuje de nuevo la gráfica anterior. (Ahora hay puntos mal clasificados respecto de la recta).}
 
@@ -244,26 +244,96 @@ En la función \texttt{modify\_classes} modificamos un 10\% de las etiquetas pos
 
 \subsection{Supongamos ahora que las siguientes funciones definen la frontera de clasificación de los puntos de la muestra en lugar de una recta:}\linespread{-10}
 \textbf{
-  \begin{itemize}[topsep=-5pt]
-  \item $f (x, y) = (x - 10)^2 + (y - 20)^2 - 400$
-  \item $f (x, y) = 0,5(x + 10)^2 + (y - 20)^2 - 400$
-  \item $f (x, y) = 0,5(x - 10)^2 - (y + 20)^2 - 400$
-  \item $f (x, y) = y - 20x^2 - 5x + 3$
+  \begin{itemize}[]
+  \item $f_1 (x, y) = (x - 10)^2 + (y - 20)^2 - 400$
+  \item $f_2 (x, y) = 0,5(x + 10)^2 + (y - 20)^2 - 400$
+  \item $f_3 (x, y) = 0,5(x - 10)^2 - (y + 20)^2 - 400$
+  \item $f_4 (x, y) = y - 20x^2 - 5x + 3$
   \end{itemize}
-Visualizar el etiquetado generado en 2b junto con cada una de las gráficas de cada una de las funciones. Comparar las formas de las regiones positivas y negativas de estas nuevas funciones con las obtenidas en el caso de la recta ¿Son estas funciones más complejas mejores clasificadores que la función lineal? ¿En que ganan a la función lineal? Explicar el razonamiento.}
+  Visualizar el etiquetado generado en 2b junto con cada una de las gráficas de cada una de las funciones. Comparar las formas de las regiones positivas y negativas de estas nuevas funciones con las obtenidas en el caso de la recta ¿Son estas funciones más complejas mejores clasificadores que la función lineal? ¿En qué ganan a la función lineal? Explicar el razonamiento.}
+
+La Figura \ref{f:13} muestra las fronteras de clasificación al usar las funciones dadas en el enunciado para definirlas, para generarlas se usó la función \texttt{plot}. A simple vista no parece que las nuevas funciones se ajusten correctamente a las clases dadas. La función $f_1$ clasifica la mayor parte de los puntos como -1, cuando esta clase es la más pequeña, y solo un pequeño grupo como 1, estos, exceptuando los puntos ruidosos, están bien clasificados. La función $f_2$ es parecida a $f_1$ aunque en este caso la elipse es mayor, luego habrá más puntos de la clase 1 bien clasificados, los de la clase -1 también quedarán, en su mayoría, correctamente clasificados, pero hay muchos puntos de la clase 1 a la que se asigna la clase contraria. Las funciones $f_3$ y $f_4$, al contrario, asignan a la mayor parte de los puntos la etiqueta 1. En el caso de $f_4$ es más exagerado, dejando con clase 1 a puntos que eran de la clase contraria prácticamente en su totalidad, aunque casi todos los puntos de la clase 1 sí que tienen su clase correcta. La función $f_3$ genera unas regiones en las que asignará clase -1, una de ellas (la derecha) queda contenida en la región en que la recta asigna esta clase. Sin embargo, la otra región en que asigna clase -1 (la izquierda) está formada, casi en su totalidad, por puntos de la clase 1.
+
 \begin{figure}[H]
 \def\tabularxcolumn#1{m{#1}}
 \begin{tabularx}{\linewidth}{@{}cXX@{}}
 %
 \begin{tabular}{cc}
-\subfloat[$f (x, y) = (x - 10)^2 + (y - 20)^2 - 400$.]{\includegraphics[width=0.5\textwidth]{f1}} 
-   & \subfloat[$f (x, y) = 0,5(x + 10)^2 + (y - 20)^2 - 400$.]{\includegraphics[width=0.5\textwidth]{f2}}\\
-\subfloat[$f (x, y) = 0,5(x - 10)^2 - (y + 20)^2 - 400$.]{\includegraphics[width=0.5\textwidth]{f3}} 
-   & \subfloat[$f (x, y) = y - 20x^2 - 5x + 3$.]{\includegraphics[width=0.5\textwidth]{f4}}\\
+\subfloat[$f_1 (x, y) = (x - 10)^2 + (y - 20)^2 - 400$.]{\includegraphics[width=0.5\textwidth]{f1}} 
+   & \subfloat[$f_2 (x, y) = 0,5(x + 10)^2 + (y - 20)^2 - 400$.]{\includegraphics[width=0.5\textwidth]{f2}}\\
+\subfloat[$f_3 (x, y) = 0,5(x - 10)^2 - (y + 20)^2 - 400$.]{\includegraphics[width=0.5\textwidth]{f3}} 
+   & \subfloat[$f_4 (x, y) = y - 20x^2 - 5x + 3$.]{\includegraphics[width=0.5\textwidth]{f4}}\\
 \end{tabular}
 \end{tabularx}
 
-\caption{Fronteras de clasificación dadas por $f$.}\label{f:13}
+\caption{Fronteras de clasificación dadas por $f_i$.}\label{f:13}
+\end{figure}
+
+A la vista de las gráficas, observamos imprecisión en las clasificaciones dadas por estas regiones, sin embargo, para realizar una comparación más exacta entre ellas podemos hacer uso de alguna métrica. Por un lado utilizaremós el \textit{accuracy}, que promedia la cantidad de elementos bien clasificados.\[
+accuracy = \frac{TP + TN}{P + N},
+\]
+donde en este caso resulta indiferente qué clase es la positiva y cuál la negativa, ya que no representan nada. El \textit{accuracy} será un valor entre 0 y 1, cuanto más cercano a 1, mejor será.
+
+Como las clases están desbalanceadas, hay notablemente menos puntos de la clase -1 que de la clase 1, podemos utilizar también una métrica que tenga esto en cuenta, elegimos \textit{balanced accuracy}, esta es una del \textit{recall} de cada clase. El \textit{recall} viene dado por \[
+recall = \frac{TP}{TP+FN},
+\]
+es una medida de cómo de bien se clasifican los ejemplos positivos, por ello nos interesa promediarlo para ambas clases. También es una medida que se encuentra entre 0 y 1, que cuando más cercana 1 mejores resultados indica.
+
+En la Tabla \ref{tab:13} se incluyen los valores obtenidos usando las métricas descritas de las funciones de este apartado, además de la función $f(x,y) = y -ax -b$ que determinó en un principio la clase de los puntos.
+
+\begin{table}[H]
+\large
+\centering
+\caption{\textit{Accuracy} y \textit{balanced accuracy} obtenido al clasificar con distintas funciones.}
+\label{tab:13}
+\begin{tabular}{lrr}
+\toprule
+& \textit{Accuracy} & \textit{Balanced accuracy}\\ \midrule
+$f$ & 0.900 & 0.856\\
+$f_1$ & 0.610 & 0.453\\
+$f_2$ & 0.530 & 0.396\\
+$f_3$ & 0.372 & 0.509\\
+$f_4$ & 0.342 & 0.510\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Como es natural, la función $f$ es la que presenta mejores valores de ambas métricas, no llegan a ser un 1 exacto porque hemos generado un ruido de un 10\%, en cada clase, el 0.1 restante del \textit{accuracy}, al usar la métrica balanceada, como una de las clases es ligeramente mayor, hay más puntos que están mal clasficados. Las funciones más complejas $f_i$ parecen haber sido ordenadas en función a su \textit{accuracy} y, efectivamente, no separan correctamente las clases fijadas, siendo el mejor \textit{accuracy} de 0.61. El \textit{balanced accuracy} ofrece resultados diferentes, por tener en cuenta el desbalanceo de las clases. Como habíamos observado, las funciones $f_3$ y $f_4$ generan regiones en la que asignar clase 1 más grandes y como esta clase es la mayoritaria, al tener en cuenta el peso de cada clase, al usar una métrica balanceada el resultado es ligeramente mejor.
+
+\section{Modelos lineales}
+
+\subsection{\textbf{Algoritmo Perceptron}: Implementar la función \texttt{ajusta\_PLA(datos, label,\\ max\_iter, vini)} que calcula el hiperplano solución a un problema de clasificación binaria usando el algoritmo PLA. La entrada \texttt{datos} es una matriz donde cada item con su etiqueta está representado por una fila de la matriz, \texttt{label} el vector de etiquetas (cada etiqueta es un valor +1 o -1), \texttt{max\_iter} es el número máximo de iteraciones permitidas y \texttt{vini} el valor inicial del vector. La función devuelve los coeficientes del hiperplano.}
+
+Las funciones implementadas en este apartado, en particular \texttt{ajusta\_PLA}, se encuentran en el archivo \texttt{ej2.py}.
+
+\subsubsection{Ejecutar el algoritmo PLA con los datos simulados en los apartados 2a de la sección.1. Inicializar el algoritmo con: a) el vector cero y, b) con vectores de números aleatorios en [0, 1] (10 veces). Anotar el número medio de iteraciones necesarias en ambos para converger. Valorar el resultado relacionando el punto de inicio con el número de iteraciones.}
+
+En este caso, nos encontramos frente a un conjunto de puntos separable, el algoritmo PLA, aunque necesite muchas iteraciones, encontrará el hiperplano que separa a los conjuntos.
+
+Tomando como punto inicial $w_0 = (0,0,0)^T$, el algoritmo necesita \textbf{315 iteraciones} para encontrar el hiperplano que clasifica correctamente a todos los puntos. En la Figura \ref{fig:21} podemos ver el hiperplano generado por el algoritmo PLA al partir de $w_0$, notamos cómo todos los puntos están bien clasificados.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{21}
+    \caption{Hiperplano generado por el algoritmo PLA cuando el punto inicial fue $(0,0,0)^T$.}
+    \label{fig:21}
+\end{figure}
+
+Si tomamos como puntos iniciales vectores aleatorios en $[0,1]$ el número de iteraciones necesarios varía, en el mejor caso necesita 172 iteraciones y en el peor 370. El \textbf{número medio de iteraciones requerido es de 291}, ligeramente inferior al caso anterior.
+
+Como ocurre en general, los parámetros de un algoritmo afectan al desempeño del mismo. En este caso hemos observado cómo el punto inicial provoca un aumento o disminución en el número de iteraciones necesario para que el algoritmo encuentre los coeficientes del hiperplano que separa ambas clases. Sin embargo notamos que, aunque el número de iteraciones varíe según el punto inicial, se logra encontrar el hiperplano que separa correctamente ambas clases, obtemos en todas las ocasiones un \textit{accuracy} de 1.
+
+\subsubsection{Hacer lo mismo que antes usando ahora los datos del apartado 2b de la sección.1. ¿Observa algún comportamiento diferente? En caso afirmativo diga cuál y las razones para que ello ocurra.}
+
+Repetimos la experimentación utilizando en este caso el conjunto de datos con ruido. En este caso las clases ya no son separables, los puntos ruidosos se encontran rodeados por elementos de la clase contraria.
+
+En esta ocasión, el algoritmo alcanza el número máximo de iteraciones sin llegar a conseguir un hiperplano que separe ambas clases. El \textit{accuracy} obtenido varía según el punto inicial, aunque en ambos casos es cercano a 0.9, pues solo tenemos un 10\% de error. En la Figura \ref{fig:21ruido} observamos el hiperplano generado cuando el punto inicial fue $(0,0,0)^T$. Notamos como los puntos ruidosos, además de los cercanos a la recta, quedan mal clasificados.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{21ruido}
+    \caption{Hiperplano generado por el algoritmo PLA partiendo del punto $(0,0,0)^T$.}
+    \label{fig:21ruido}
 \end{figure}
 
 \newpage

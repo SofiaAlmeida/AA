@@ -5,6 +5,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.metrics import accuracy_score
+from sklearn.metrics import balanced_accuracy_score
 
 #-------------------------------------------------------------------
 # Fijamos la semilla
@@ -12,6 +13,11 @@ np.random.seed(1)
 
 # Guardamos o no imágenes
 save = True
+
+#-------------------------------------------------------------------
+# Devuelve clase 1 si el elemento es >= 0, -1 en otro caso
+def class_(x):
+    return np.array([1.0 if xx >= 0 else -1.0 for xx in x])
 
 #-------------------------------------------------------------------
 # Calcula una lista de N vectores de dimensión dim
@@ -94,6 +100,13 @@ def plot(x, y, fun, save = False, title = "", name = "", legend = "", xlim = [-1
     Z = zs.reshape(X.shape)
     # Filled contour
     CS = ax.contourf(X, Y, Z, levels = 0, alpha = 0.15)
+    
+    proxy1 = plt.Rectangle((0,0),1,1,fc = CS.collections[1].get_facecolor()[0], label = 'f(x,y) < 0') 
+    
+    proxy2 = plt.Rectangle((0,0),1,1,fc = CS.collections[0].get_facecolor()[0], label = 'f(x,y) > 0')
+    
+    #CS.collections[1].set_label([', 'f(x,y)<0'])
+    ax.patches += [proxy1, proxy2]
     # Contour
     CS2 = ax.contour(X, Y, Z, levels = 0, alpha = 0.3, colors = ['black'])
     CS2.collections[1].set_label(legend)
@@ -102,7 +115,7 @@ def plot(x, y, fun, save = False, title = "", name = "", legend = "", xlim = [-1
     scatter = ax.scatter(x[:,0], x[:,1], c = y, alpha = 0.6, edgecolors='none', cmap =matplotlib.colors.ListedColormap(colors))
 
     # Legend
-    legend1 = ax.legend(*scatter.legend_elements(), loc=(1.02,0.1), title="Clases")
+    legend1 = ax.legend(*scatter.legend_elements(), loc=(1.02,0.22), title="Clases")
     plt.legend(loc = (1.02, 0))
     ax.add_artist(legend1)
     ax.set_xlabel('')
@@ -136,7 +149,7 @@ def plot_line(x, y, a, b, save = False, title = "", name = "", xlim = [-1, 1], y
     zs = np.array([line(x1, y1, a, b) for x1,y1 in zip(np.ravel(X), np.ravel(Y))])
     Z = zs.reshape(X.shape)
     CS = ax.contour(X, Y, Z, levels = 0, alpha = 0.6, colors = ['black'])
-    CS.collections[1].set_label("y - " + f"{a:.4f}" + "x - (" + f"{b:.4f}" + ")")
+    CS.collections[1].set_label("y - (" + f"{a:.4f}" + ")x - (" + f"{b:.4f}" + ")")
 
     # Leyenda
     legend1 = ax.legend(*scatter.legend_elements(), loc=(1.02,0.1), title="Clases")
@@ -158,7 +171,7 @@ def plot_line(x, y, a, b, save = False, title = "", name = "", xlim = [-1, 1], y
 def f(points, a, b):
     vector_b =  b*np.array(np.ones((points.shape[0], 1)))
     f = points[:,1] - a * points[:,0] - vector_b[:,0]
-    return np.sign(f)
+    return class_(f)
 
 #-------------------------------------------------------------------
 # f(x,y) = y - ax - b
@@ -206,11 +219,13 @@ def f4(x,y):
 
 
 #-------------------------------------------------------------------
-def percentage(x, y, fun):
-    y_pred = np.sign(fun(x[:,0], x[:,1]))
-    score = accuracy_score(y, y_pred)
-    print(score)
-    return y
+# Devuelve el accuracy y balanced accuracy que da la función fun
+# si las etiquetas correctas son las de y
+def metrics(x, y, fun):
+    y_pred = class_(fun(x[:,0], x[:,1]))
+    acc = accuracy_score(y, y_pred)
+    bal_acc = balanced_accuracy_score(y, y_pred)
+    return acc, bal_acc
     
 
 #-------------------------------------------------------------------
@@ -223,14 +238,20 @@ points1a = simula_unif(N, dim, rango)
 draw_points(points1a, "", save, "points1a")
 
 
+input("\n--- Pulsar tecla para continuar ---\n")
+
 # Ejercicio 1 b ----------------------------------------------------
 sigma = [5, 7]
 points1b = simula_gaus(N, dim, sigma)
 draw_points(points1b, "", save, "points1b")
 
+
+input("\n--- Pulsar tecla para continuar ---\n")
+
 #-------------------------------------------------------------------
 # Ejercicio 2 a ----------------------------------------------------
-N = 500
+np.random.seed(123456)
+N = 100
 dim = 2
 rango = [-50, 50]
 intervalo = [-50, 50]
@@ -240,20 +261,45 @@ y = f(points2, a, b)
 
 plot_line(points2, y, a, b, save, name = "recta", xlim = rango, ylim = rango)
 
+input("\n--- Pulsar tecla para continuar ---\n")
 
-# Ejercicio 2 a ----------------------------------------------------
+# Ejercicio 2 b ----------------------------------------------------
 y = modify_class(y)
 
 plot_line(points2, y, a, b, save, name = "recta+ruido", xlim = rango, ylim = rango)
 
+y_pred = f(points2, a, b)
+acc = accuracy_score(y, y_pred)
+bal_acc = balanced_accuracy_score(y, y_pred)
+print("Accuracy de f : ", acc)
+print("Balanced accuracy de f: ", bal_acc)
 
-# Ejercicio 2 b ----------------------------------------------------
+input("\n--- Pulsar tecla para continuar ---\n")
+
+# Ejercicio 3 ----------------------------------------------------
 plot(points2, y, f1, save, "", name = "f1", xlim = rango, ylim = rango, legend = "(x-10)² + (y-20)²- 400")
-percentage(points2, y, f1)
+acc, bal_acc = metrics(points2, y, f1)
+print("Accuracy de f1: ", acc)
+print("Balanced accuracy de f1: ", bal_acc)
 
+input("\n--- Pulsar tecla para continuar ---\n")
 
 plot(points2, y, f2, save, "", name = "f2", xlim = rango, ylim = rango, legend = "0.5(x+10)² + (y-20)²- 400")
+acc, bal_acc = metrics(points2, y, f2)
+print("Accuracy de f2: ", acc)
+print("Balanced accuracy de f2: ", bal_acc)
+
+input("\n--- Pulsar tecla para continuar ---\n")
 
 plot(points2, y, f3, save, "", name = "f3", xlim = rango, ylim = rango, legend = "0.5(x-10)² + (y-20)²- 400")
+acc, bal_acc = metrics(points2, y, f3)
+print("Accuracy de f3: ", acc)
+print("Balanced accuracy de f3: ", bal_acc)
+
+input("\n--- Pulsar tecla para continuar ---\n")
 
 plot(points2, y, f4, save, "", name = "f4", xlim = rango, ylim = rango, legend = "y - 20x² - 5x + 3")
+acc, bal_acc = metrics(points2, y, f4)
+print("Accuracy de f4: ", acc)
+print("Balanced accuracy de f4: ", bal_acc)
+input("\n--- Pulsar tecla para continuar ---\n")
