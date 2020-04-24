@@ -250,9 +250,9 @@ En la función \texttt{modify\_classes} modificamos un 10\% de las etiquetas pos
   \item $f_3 (x, y) = 0,5(x - 10)^2 - (y + 20)^2 - 400$
   \item $f_4 (x, y) = y - 20x^2 - 5x + 3$
   \end{itemize}
-  Visualizar el etiquetado generado en 2b junto con cada una de las gráficas de cada una de las funciones. Comparar las formas de las regiones positivas y negativas de estas nuevas funciones con las obtenidas en el caso de la recta ¿Son estas funciones más complejas mejores clasificadores que la función lineal? ¿En qué ganan a la función lineal? Explicar el razonamiento.}
+  Visualizar el etiquetado generado en 2b junto con cada una de las gráficas de cada una de las funciones. Comparar las regiones positivas y negativas de estas nuevas funciones con las obtenidas en el caso de la recta. ¿Son estas funciones más complejas mejores clasificadores que la función lineal? Observe las gráficas y diga que consecuencias extrae sobre la influencia del proceso de modificación de etiquetas en el proceso de aprendizaje Explicar el razonamiento.}
 
-La Figura \ref{f:13} muestra las fronteras de clasificación al usar las funciones dadas en el enunciado para definirlas, para generarlas se usó la función \texttt{plot}. A simple vista no parece que las nuevas funciones se ajusten correctamente a las clases dadas. La función $f_1$ clasifica la mayor parte de los puntos como -1, cuando esta clase es la más pequeña, y solo un pequeño grupo como 1, estos, exceptuando los puntos ruidosos, están bien clasificados. La función $f_2$ es parecida a $f_1$ aunque en este caso la elipse es mayor, luego habrá más puntos de la clase 1 bien clasificados, los de la clase -1 también quedarán, en su mayoría, correctamente clasificados, pero hay muchos puntos de la clase 1 a la que se asigna la clase contraria. Las funciones $f_3$ y $f_4$, al contrario, asignan a la mayor parte de los puntos la etiqueta 1. En el caso de $f_4$ es más exagerado, dejando con clase 1 a puntos que eran de la clase contraria prácticamente en su totalidad, aunque casi todos los puntos de la clase 1 sí que tienen su clase correcta. La función $f_3$ genera unas regiones en las que asignará clase -1, una de ellas (la derecha) queda contenida en la región en que la recta asigna esta clase. Sin embargo, la otra región en que asigna clase -1 (la izquierda) está formada, casi en su totalidad, por puntos de la clase 1.
+La Figura \ref{f:13} muestra las fronteras de clasificación al usar las funciones dadas en el enunciado para definirlas, para generarlas se usó la función \texttt{plot}. A simple vista no parece que las nuevas funciones se ajusten correctamente a las clases dadas. La función $f_1$ clasifica la mayor parte de los puntos como -1, cuando realmente pertenecen a ambas clases, y solo un pequeño grupo como 1, estos, exceptuando los puntos ruidosos, están bien clasificados. Los puntos de la clase -1 quedan, salvo ruido, bien clasificados. La función $f_2$ es parecida a $f_1$ aunque en este caso la elipse es mayor y ahora recoge a puntos de las dos clases (aproximadamente la mitad de ellos quedarán mal clasificados), al resto de puntos se les asigna clase -1, clasificando correctamente aproximadamente la mitad de los puntos. Las funciones $f_3$ y $f_4$, al contrario, asignan a la mayor parte de los puntos la etiqueta 1. En el caso de $f_4$ es más exagerado, dejando con clase 1 a puntos que eran de la clase contraria prácticamente en su totalidad, aunque casi todos los puntos de la clase 1 sí que tienen su clase correcta. La función $f_3$ genera unas regiones en las que asignará clase -1, una de ellas (la derecha) asigna incorrectamente etiqueta -1 a puntos de la clase 1. La otra región en que asigna clase -1 (la izquierda) está formada, en su mayoría, por puntos de esta clase.
 
 \begin{figure}[H]
 \def\tabularxcolumn#1{m{#1}}
@@ -269,15 +269,15 @@ La Figura \ref{f:13} muestra las fronteras de clasificación al usar las funcion
 \caption{Fronteras de clasificación dadas por $f_i$.}\label{f:13}
 \end{figure}
 
-A la vista de las gráficas, observamos imprecisión en las clasificaciones dadas por estas regiones, sin embargo, para realizar una comparación más exacta entre ellas podemos hacer uso de alguna métrica. Por un lado utilizaremós el \textit{accuracy}, que promedia la cantidad de elementos bien clasificados.\[
+A la vista de las gráficas, observamos imprecisión en las clasificaciones dadas por estas regiones, sin embargo, para realizar una comparación más exacta entre ellas podemos hacer uso de alguna métrica. Por un lado, utilizaremós el \textit{accuracy}, que promedia la cantidad de elementos bien clasificados,\[
 accuracy = \frac{TP + TN}{P + N},
 \]
-donde en este caso resulta indiferente qué clase es la positiva y cuál la negativa, ya que no representan nada. El \textit{accuracy} será un valor entre 0 y 1, cuanto más cercano a 1, mejor será.
+donde en este caso resulta indiferente qué clase es la positiva y cuál la negativa, ya que no representan nada. El \textit{accuracy} será un valor entre 0 y 1, cuanto más cercano a 1, mejor clasificados estarán los datos.
 
-Como las clases están desbalanceadas, hay notablemente menos puntos de la clase -1 que de la clase 1, podemos utilizar también una métrica que tenga esto en cuenta, elegimos \textit{balanced accuracy}, esta es una del \textit{recall} de cada clase. El \textit{recall} viene dado por \[
+Como las clases están ligeramente desbalanceadas, hay menos puntos de la clase 1 que de la clase -1, podemos utilizar también una métrica que tenga esto en cuenta, elegimos \textit{balanced accuracy}, esta es una media del \textit{recall} de cada clase. El \textit{recall} viene dado por \[
 recall = \frac{TP}{TP+FN},
 \]
-es una medida de cómo de bien se clasifican los ejemplos positivos, por ello nos interesa promediarlo para ambas clases. También es una medida que se encuentra entre 0 y 1, que cuando más cercana 1 mejores resultados indica.
+es una medida de cómo de bien se clasifican los ejemplos positivos, por ello nos interesa promediarlo para ambas clases. También es una medida que se encuentra entre 0 y 1, que cuanto más cercana 1 mejores resultados indica.
 
 En la Tabla \ref{tab:13} se incluyen los valores obtenidos usando las métricas descritas de las funciones de este apartado, además de la función $f(x,y) = y -ax -b$ que determinó en un principio la clase de los puntos.
 
@@ -289,16 +289,16 @@ En la Tabla \ref{tab:13} se incluyen los valores obtenidos usando las métricas 
 \begin{tabular}{lrr}
 \toprule
 & \textit{Accuracy} & \textit{Balanced accuracy}\\ \midrule
-$f$ & 0.900 & 0.856\\
-$f_1$ & 0.610 & 0.453\\
-$f_2$ & 0.530 & 0.396\\
-$f_3$ & 0.372 & 0.509\\
-$f_4$ & 0.342 & 0.510\\
+$f$ & 0.91 & 0.903\\
+$f_1$ & 0.31 & 0.366\\
+$f_2$ & 0.43 & 0.476\\
+$f_3$ & 0.53 & 0.467\\
+$f_4$ & 0.59 & 0.515\\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Como es natural, la función $f$ es la que presenta mejores valores de ambas métricas, no llegan a ser un 1 exacto porque hemos generado un ruido de un 10\%, en cada clase, el 0.1 restante del \textit{accuracy}, al usar la métrica balanceada, como una de las clases es ligeramente mayor, hay más puntos que están mal clasficados. Las funciones más complejas $f_i$ parecen haber sido ordenadas en función a su \textit{accuracy} y, efectivamente, no separan correctamente las clases fijadas, siendo el mejor \textit{accuracy} de 0.61. El \textit{balanced accuracy} ofrece resultados diferentes, por tener en cuenta el desbalanceo de las clases. Como habíamos observado, las funciones $f_3$ y $f_4$ generan regiones en la que asignar clase 1 más grandes y como esta clase es la mayoritaria, al tener en cuenta el peso de cada clase, al usar una métrica balanceada el resultado es ligeramente mejor.
+Como es natural, la función $f$ es la que presenta mejores valores de ambas métricas, no llegan a ser un 1 exacto porque hemos generado un ruido de un 10\% en cada clase, que se corresponde con el 0.1 restante del \textit{accuracy}. Las funciones más complejas $f_i$, como habíamos observado, no separan correctamente las clases fijadas, siendo el mejor \textit{accuracy} de 0.59. En este caso elegir modelos más complejos no ha proporcionado buenos resulados, al contrario que en la práctica anterior.
 
 \section{Modelos lineales}
 
@@ -310,7 +310,7 @@ Las funciones implementadas en este apartado, en particular \texttt{ajusta\_PLA}
 
 En este caso, nos encontramos frente a un conjunto de puntos separable, el algoritmo PLA, aunque necesite muchas iteraciones, encontrará el hiperplano que separa a los conjuntos.
 
-Tomando como punto inicial $w_0 = (0,0,0)^T$, el algoritmo necesita \textbf{315 iteraciones} para encontrar el hiperplano que clasifica correctamente a todos los puntos. En la Figura \ref{fig:21} podemos ver el hiperplano generado por el algoritmo PLA al partir de $w_0$, notamos cómo todos los puntos están bien clasificados.
+Tomando como punto inicial $w_0 = (0,0,0)^T$, las diez ejecuciones el algoritmo necesita \textbf{315 iteraciones} para encontrar el hiperplano que clasifica correctamente a todos los puntos. En la Figura \ref{fig:21} podemos ver el hiperplano generado por el algoritmo PLA al partir de $w_0$, notamos cómo todos los puntos están bien clasificados. Notamos que el algoritmo es determinista, al empezar en el mismo punto, obtiene los mismos resultados.
 
 \begin{figure}[H]
     \centering
@@ -319,15 +319,15 @@ Tomando como punto inicial $w_0 = (0,0,0)^T$, el algoritmo necesita \textbf{315 
     \label{fig:21}
 \end{figure}
 
-Si tomamos como puntos iniciales vectores aleatorios en $[0,1]$ el número de iteraciones necesarios varía, en el mejor caso necesita 172 iteraciones y en el peor 370. El \textbf{número medio de iteraciones requerido es de 291}, ligeramente inferior al caso anterior.
+Si tomamos como puntos iniciales vectores aleatorios en $[0,1]$ el número de iteraciones necesarios varía, en el mejor caso necesita 172 iteraciones y en el peor 370. El \textbf{número medio de iteraciones requerido es de 291}, ligeramente inferior al caso anterior, sin embargo la desviación típica es de 61. Destacamos que cada punto inicial requiere un número de iteraciones variable, algunos mejores y otros peores que el caso anterior.
 
-Como ocurre en general, los parámetros de un algoritmo afectan al desempeño del mismo. En este caso hemos observado cómo el punto inicial provoca un aumento o disminución en el número de iteraciones necesario para que el algoritmo encuentre los coeficientes del hiperplano que separa ambas clases. Sin embargo notamos que, aunque el número de iteraciones varíe según el punto inicial, se logra encontrar el hiperplano que separa correctamente ambas clases, obtemos en todas las ocasiones un \textit{accuracy} de 1.
+Como ocurre en general, los parámetros de un algoritmo afectan al desempeño del mismo. En este caso hemos observado cómo el punto inicial provoca un aumento o disminución en el número de iteraciones necesario para que el algoritmo encuentre los coeficientes del hiperplano que separa ambas clases. Sin embargo, notamos que, aunque el número de iteraciones varíe según el punto inicial, se logra encontrar el hiperplano que separa correctamente ambas clases, obtemos en todas las ocasiones un \textit{accuracy} de 1.
 
 \subsubsection{Hacer lo mismo que antes usando ahora los datos del apartado 2b de la sección.1. ¿Observa algún comportamiento diferente? En caso afirmativo diga cuál y las razones para que ello ocurra.}
 
-Repetimos la experimentación utilizando en este caso el conjunto de datos con ruido. En este caso las clases ya no son separables, los puntos ruidosos se encontran rodeados por elementos de la clase contraria.
+Repetimos la experimentación utilizando el conjunto de datos con ruido. En este caso las clases ya no son separables, los puntos ruidosos se encuentran rodeados por elementos de la clase contraria.
 
-En esta ocasión, el algoritmo alcanza el número máximo de iteraciones sin llegar a conseguir un hiperplano que separe ambas clases. El \textit{accuracy} obtenido varía según el punto inicial, aunque en ambos casos es cercano a 0.9, pues solo tenemos un 10\% de error. En la Figura \ref{fig:21ruido} observamos el hiperplano generado cuando el punto inicial fue $(0,0,0)^T$. Notamos como los puntos ruidosos, además de los cercanos a la recta, quedan mal clasificados.
+En esta ocasión, el algoritmo alcanza el número máximo de iteraciones sin llegar a conseguir un hiperplano que separe ambas clases. El \textit{accuracy} obtenido varía según el punto inicial, aunque para todos los puntos iniciales es cercano a 0.9, pues solo tenemos un 10\% de error. En la Figura \ref{fig:21ruido} observamos el hiperplano generado cuando el punto inicial fue $(0,0,0)^T$. Notamos como los puntos ruidosos, además de los cercanos a la recta, quedan mal clasificados. 
 
 \begin{figure}[H]
     \centering

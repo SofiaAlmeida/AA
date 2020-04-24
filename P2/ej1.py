@@ -12,7 +12,7 @@ from sklearn.metrics import balanced_accuracy_score
 np.random.seed(1)
 
 # Guardamos o no imágenes
-save = True
+save = False
 
 #-------------------------------------------------------------------
 # Devuelve clase 1 si el elemento es >= 0, -1 en otro caso

@@ -6,11 +6,14 @@ import matplotlib.pyplot as plt
 from sklearn.utils import shuffle
 from sklearn.metrics import accuracy_score
 import seaborn as sns
+import math
+from numpy import linalg as LA
+from scipy.special import expit
 
 #-------------------------------------------------------------------
 # Fijamos la semilla
 np.random.seed(1)
-save = True
+save = False
 
 #-------------------------------------------------------------------
 # Calcula una lista de N vectores de dimensión dim
@@ -123,39 +126,100 @@ def ajusta_PLA(datos, label, max_iter, vini):
     return w, it
 
 #-------------------------------------------------------------------
-def ej1(points, y, save, name, rango):
+def ej1_zeros(points, y, save, name, rango):
     
     # Ejercicio 1 a ----------------------------------------------------
     wini = np.zeros((3, 1))
     max_iter = 2000
-    w, it = ajusta_PLA(points, y, max_iter, wini)
+    it = []
+    acc = []
+    
+    for i in range(0,10):
+        w, it_ = ajusta_PLA(points, y, max_iter, wini)
+        it = np.append(it, it_)
+        y_pred = np.sign(w[0] + points[:,0]*w[1] + points[:,1]*w[2])
+        acc = np.append(acc, accuracy_score(y, y_pred))
 
-    y_pred = np.sign(w[0] + points[:,0]*w[1] + points[:,1]*w[2])
-    acc = accuracy_score(y, y_pred)
-    print("w_0: ", wini)
+    print("Punto inicial (0,0,0)^T, resultados medios-----------------")
     print("it: ", it)
+    print("Número de iteraciones medio: ", np.mean(it))
+    print("Desviación típica: ", np.std(it))
     print("acc: ", acc)
+    print("Accuracy  medio: ", np.mean(acc))
+    print("Desviación típica: ", np.std(acc)) 
+    plot_line(points, y, w, save, name = name,  xlim = rango, ylim = rango)
     input("\n--- Pulsar tecla para continuar ---\n")
 
-    plot_line(points, y, w, save, name = name,  xlim = rango, ylim = rango)
+#-------------------------------------------------------------------
+def ej1_rand(points, y):
     
-    sum_it = 0
-    sum_acc = 0
+    # Ejercicio 1 a ----------------------------------------------------
+    max_iter = 2000
+    it = []
+    acc = []
 
     for i in range(0,10):
         wini = np.random.rand(3, 1)
         
-        w, it = ajusta_PLA(points, y, max_iter, wini)
-        sum_it += it
+        w, it_ = ajusta_PLA(points, y, max_iter, wini)
+        it = np.append(it, it_)
         y_pred = np.sign(w[0] + points[:,0]*w[1] + points[:,1]*w[2])
-        sum_acc += accuracy_score(y, y_pred)
+        acc = np.append(acc, accuracy_score(y, y_pred))
 
     print("Punto inicial aleatorio, resultados medios-----------------")
-    print("it: ", sum_it/10.0)
-    print("acc: ", sum_acc/10.0)
+    print("it: ", it)
+    print("Número de iteraciones medio: ", np.mean(it))
+    print("Desviación típica: ", np.std(it))
+    print("acc: ", acc)
+    print("Accuracy  medio: ", np.mean(acc))
+    print("Desviación típica: ", np.std(acc))
     input("\n--- Pulsar tecla para continuar ---\n")
-    
 
+#-------------------------------------------------------------------
+def  grad_err(x, y, w):
+    den = expit(- y * np.dot(x, w))
+    print(y.shape)
+    print((y * np.dot(x, w)).shape)
+    frac = y * den
+    print(frac.shape)
+    vector = frac * x
+    return - (1 / x.shape[0]) * np.sum(vector, axis = 1)
+    
+#-------------------------------------------------------------------
+# Gradiente Descendente Estocastico Regresión logística 
+# x:  matriz de datos
+# y: valor correspondiente a cada elemento
+# lr: tasa de aprendizaje
+# max_iters: número máximo de iteraciones
+# tam_minbatch: tamaño de los minibatchs
+def sgdRL(x, y, lr, tam_minibatch = 1, w = np.zeros((3,1))):
+    # Inicializamos número de minibatchs según el total de elementos y el tamaño
+    num_minibatch = x.shape[0] / tam_minibatch
+    iterate = True
+
+    x = np.hstack((np.ones((x.shape[0],1)), x))	
+    
+    
+    while(iterate):
+	# Desordenamos los conjuntos
+        x, y = shuffle(x, y)
+	# Creamos los minibatchs
+        minibatchs_x = np.array_split(x, num_minibatch)
+        minibatchs_y = np.array_split(y, num_minibatch)
+        
+        w_ant = w
+	        
+        for xj, yj in zip(minibatchs_x, minibatchs_y):
+            # Actualizamos w
+            w = w - lr * grad_err(xj, yj, w)
+
+        # Comprobamos la condición de parada
+        print(LA.norm(w - w_ant))
+        iterate = LA.norm(w - w_ant) >= 0.01
+	
+    return w
+    
+    
 #-------------------------------------------------------------------
 # Ejercicio 1 a ---------------------------------------------------
 # Generamos los puntos y los etiquetamos
@@ -169,10 +233,12 @@ a, b = simula_recta(intervalo)
 y = f(points, a, b)
 y_err = modify_class(y)
 
-
 print("Ejercicio 1------------------------------")
 print("Etiquetas sin ruido------------------------------")
-ej1(points, y, save, "21", rango)
-
+#ej1_zeros(points, y, save, "21", rango)
+#ej1_rand(points, y)
 print("Etiquetas con ruido------------------------------")
-ej1(points, y_err, save, "21ruido", rango)
+#ej1_zeros(points, y_err, save, "21ruido", rango)
+#ej1_rand(points, y_err)
+
+sgdRL(points, y, 0.01, tam_minibatch = 1)
