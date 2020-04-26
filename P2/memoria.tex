@@ -198,7 +198,7 @@ El código correspondiente a este ejercicio se encuentra en el archivo \texttt{e
 \subsection{Dibujar una gráfica con la nube de puntos de salida correspondiente.}
 Para dibujar las gráficas con la nube de puntos se ha implementado la función \texttt{draw\_points} que toma como parámetro el vector $N$ de puntos.
 \subsubsection{Considere $N = 50$, $dim = 2$, $rango = [-50, +50]$ con \texttt{simula\_unif(N, dim, rango)}.}
-Llamando a la función \texttt{simula\_unif(N, dim, rango)} con los parámetros correspondintes, se generó el conjunto de puntos que podemos observar en la Figura \ref{fig:1a}. Notamos que, efectivamente, los puntos se han generado uniformemente en el rango.
+Llamando a la función \texttt{simula\_unif(N, dim, rango)} con los parámetros correspondientes, se generó el conjunto de puntos que podemos observar en la Figura \ref{fig:1a}. Notamos que, efectivamente, los puntos se han generado uniformemente en el rango.
 
 \begin{figure}[H]
     \centering
@@ -208,7 +208,7 @@ Llamando a la función \texttt{simula\_unif(N, dim, rango)} con los parámetros 
 \end{figure}
 
 \subsubsection{Considere $N = 50$ y $sigma = [5,7]$ con \texttt{simula\_gaus(N, dim, sigma)}.}
-Ejecutando la función \texttt{simula\_gaus} con los parámetros pedidos se obtiene el conjunto de puntos mostrado en la Figura \ref{fig:1b}. En este caso los puntos se agrupan en torno al $(0,0)$ ya que la función usada para generarlos fue una gaussiana de media 0.
+Ejecutando la función \texttt{simula\_gaus} con los parámetros pedidos se obtiene el conjunto de puntos mostrado en la Figura \ref{fig:1b}. En este caso los puntos se agrupan en torno al $(0,0)$, ya que la función usada para generarlos fue una gaussiana de media 0.
 
 \begin{figure}[H]
     \centering
@@ -217,10 +217,10 @@ Ejecutando la función \texttt{simula\_gaus} con los parámetros pedidos se obti
     \label{fig:1b}
 \end{figure}
 
-\subsection{Vamos a valorar la influencia del rudio en la seleccion de la complejidad de la clase de funciones. Con ayuda de la función \texttt{simula\_unif(100, 2, [-50,50])} generar una muestra de puntos 2D a los que vamos añadir una etiqueta usando el signo de la función $f(x, y) = y - ax - b$, es decir el signo de la distancia de cada punto a la recta simulada con \texttt{simula\_recta()}.}
+\subsection{Vamos a valorar la influencia del ruido en la selección de la complejidad de la clase de funciones. Con ayuda de la función \texttt{simula\_unif(100, 2, [-50,50])} generar una muestra de puntos 2D a los que vamos añadir una etiqueta usando el signo de la función $f(x, y) = y - ax - b$, es decir el signo de la distancia de cada punto a la recta simulada con \texttt{simula\_recta()}.}
 \subsubsection{Dibujar una gráfica donde los puntos muestren el resultado de su etiqueta, junto con la recta usada para ello. (Observe que todos los puntos están bien clasificados respecto de la recta).}
 
-Se generan los puntos como en el caso anterior, en este caso tomamos una muestra de 100 puntos en el mismo rango. Se les asigna su clase mediante la función \texttt{f}, que toma los parámetros \texttt{a, b} obtenidos al ejecutar \texttt{simula\_recta}. Se ha utilizado la función \texttt{plot\_line} para generar la gráfica.
+Se generan los puntos como en el caso anterior, en este caso tomamos una muestra de 100 puntos en el mismo rango. Se les asigna su clase mediante la función \texttt{f}, que toma los parámetros \texttt{a, b}, obtenidos al ejecutar \texttt{simula\_recta}. Se ha utilizado la función \texttt{plot\_line} para generar la gráfica.
 
 \begin{figure}[H]
     \centering
@@ -229,11 +229,11 @@ Se generan los puntos como en el caso anterior, en este caso tomamos una muestra
     \label{fig:recta}
 \end{figure}
 
-En la Figura \ref{fig:recta} vemos los puntos generados coloreados según su clase y notamos cómo la recta es una frontera perfecta entre ambas. Esto es debido a que las etiquetas se asignaron en función al signo\footnote{De aquí en adelante se considerará que signo(0) = 1 a la hora de asignar las clases.} obtenido por la función que define la recta.
+En la Figura \ref{fig:recta} vemos los puntos generados, coloreados según su clase y notamos cómo la recta es una frontera perfecta entre ambas. Esto es debido a que las etiquetas se asignaron en función al signo\footnote{De aquí en adelante se considerará que signo(0) = 1 a la hora de asignar las clases.} obtenido por la función que define la recta.
 
 \subsubsection{Modifique de forma aleatoria un 10 \% etiquetas positivas y otro 10 \% de negativas y guarde los puntos con sus nuevas etiquetas. Dibuje de nuevo la gráfica anterior. (Ahora hay puntos mal clasificados respecto de la recta).}
 
-En la función \texttt{modify\_classes} modificamos un 10\% de las etiquetas positivas y un 10\% de las etiquetas negativas. Pintamos la gráfica resultante, que podemos ver en la Figura \ref{fig:2b}. La gráfica es similar a la del apartado anterior, con la diferencia de que esta vez la recta no serpara correctamente a todos los puntos, al haber añadido ruido hay puntos que quedan mal clasificados.
+En la función \texttt{modify\_classes} modificamos un 10\% de las etiquetas positivas y un 10\% de las etiquetas negativas. Dibujamos la gráfica resultante, que podemos ver en la Figura \ref{fig:2b}. La gráfica es similar a la del apartado anterior, con la diferencia de que esta vez la recta no separa correctamente a todos los puntos, al haber añadido ruido hay puntos que quedan mal clasificados.
 
 \begin{figure}[H]
     \centering
@@ -252,7 +252,7 @@ En la función \texttt{modify\_classes} modificamos un 10\% de las etiquetas pos
   \end{itemize}
   Visualizar el etiquetado generado en 2b junto con cada una de las gráficas de cada una de las funciones. Comparar las regiones positivas y negativas de estas nuevas funciones con las obtenidas en el caso de la recta. ¿Son estas funciones más complejas mejores clasificadores que la función lineal? Observe las gráficas y diga que consecuencias extrae sobre la influencia del proceso de modificación de etiquetas en el proceso de aprendizaje Explicar el razonamiento.}
 
-La Figura \ref{f:13} muestra las fronteras de clasificación al usar las funciones dadas en el enunciado para definirlas, para generarlas se usó la función \texttt{plot}. A simple vista no parece que las nuevas funciones se ajusten correctamente a las clases dadas. La función $f_1$ clasifica la mayor parte de los puntos como -1, cuando realmente pertenecen a ambas clases, y solo un pequeño grupo como 1, estos, exceptuando los puntos ruidosos, están bien clasificados. Los puntos de la clase -1 quedan, salvo ruido, bien clasificados. La función $f_2$ es parecida a $f_1$ aunque en este caso la elipse es mayor y ahora recoge a puntos de las dos clases (aproximadamente la mitad de ellos quedarán mal clasificados), al resto de puntos se les asigna clase -1, clasificando correctamente aproximadamente la mitad de los puntos. Las funciones $f_3$ y $f_4$, al contrario, asignan a la mayor parte de los puntos la etiqueta 1. En el caso de $f_4$ es más exagerado, dejando con clase 1 a puntos que eran de la clase contraria prácticamente en su totalidad, aunque casi todos los puntos de la clase 1 sí que tienen su clase correcta. La función $f_3$ genera unas regiones en las que asignará clase -1, una de ellas (la derecha) asigna incorrectamente etiqueta -1 a puntos de la clase 1. La otra región en que asigna clase -1 (la izquierda) está formada, en su mayoría, por puntos de esta clase.
+La Figura \ref{f:13} muestra las fronteras de clasificación al usar las funciones dadas en el enunciado para definirlas. Para generarlas se usó la función \texttt{plot}. A simple vista no parece que las nuevas funciones se ajusten correctamente a las clases dadas. La función $f_1$ clasifica la mayor parte de los puntos como -1, cuando realmente pertenecen a ambas clases, y solo un pequeño grupo como 1, estos, exceptuando los puntos ruidosos, están bien clasificados. Los puntos de la clase -1 quedan, salvo ruido, bien clasificados. La función $f_2$ es parecida a $f_1$, aunque en este caso la elipse es mayor y ahora recoge a puntos de las dos clases (aproximadamente la mitad de ellos quedarán mal clasificados). Al resto de puntos se les asigna clase -1, clasificando correctamente aproximadamente la mitad de los puntos. Las funciones $f_3$ y $f_4$, al contrario, asignan a la mayor parte de los puntos la etiqueta 1. En el caso de $f_4$ es más exagerado, dejando con clase 1 a puntos que eran de la clase contraria prácticamente en su totalidad, aunque casi todos los puntos de la clase 1 sí que tienen su clase correcta. La función $f_3$ genera unas regiones en las que asignará clase -1. Una de ellas (la derecha) asigna incorrectamente etiqueta -1 a puntos de la clase 1. La otra región en que asigna clase -1 (la izquierda) está formada, en su mayoría, por puntos de esta clase.
 
 \begin{figure}[H]
 \def\tabularxcolumn#1{m{#1}}
@@ -269,12 +269,12 @@ La Figura \ref{f:13} muestra las fronteras de clasificación al usar las funcion
 \caption{Fronteras de clasificación dadas por $f_i$.}\label{f:13}
 \end{figure}
 
-A la vista de las gráficas, observamos imprecisión en las clasificaciones dadas por estas regiones, sin embargo, para realizar una comparación más exacta entre ellas podemos hacer uso de alguna métrica. Por un lado, utilizaremós el \textit{accuracy}, que promedia la cantidad de elementos bien clasificados,\[
+A la vista de las gráficas, observamos imprecisión en las clasificaciones dadas por estas regiones, sin embargo, para realizar una comparación más exacta entre ellas podemos hacer uso de alguna métrica. Por un lado, utilizaremos el \textit{accuracy}, que promedia la cantidad de elementos bien clasificados,\[
 accuracy = \frac{TP + TN}{P + N},
 \]
 donde en este caso resulta indiferente qué clase es la positiva y cuál la negativa, ya que no representan nada. El \textit{accuracy} será un valor entre 0 y 1, cuanto más cercano a 1, mejor clasificados estarán los datos.
 
-Como las clases están ligeramente desbalanceadas, hay menos puntos de la clase 1 que de la clase -1, podemos utilizar también una métrica que tenga esto en cuenta, elegimos \textit{balanced accuracy}, esta es una media del \textit{recall} de cada clase. El \textit{recall} viene dado por \[
+Como las clases están ligeramente desbalanceadas, hay menos puntos de la clase 1 que de la clase -1, podemos utilizar también una métrica que tenga esto en cuenta. Elegimos \textit{balanced accuracy}, esta es una media del \textit{recall} de cada clase. El \textit{recall} viene dado por \[
 recall = \frac{TP}{TP+FN},
 \]
 es una medida de cómo de bien se clasifican los ejemplos positivos, por ello nos interesa promediarlo para ambas clases. También es una medida que se encuentra entre 0 y 1, que cuanto más cercana 1 mejores resultados indica.
@@ -298,7 +298,7 @@ $f_4$ & 0.59 & 0.515\\
 \end{tabular}
 \end{table}
 
-Como es natural, la función $f$ es la que presenta mejores valores de ambas métricas, no llegan a ser un 1 exacto porque hemos generado un ruido de un 10\% en cada clase, que se corresponde con el 0.1 restante del \textit{accuracy}. Las funciones más complejas $f_i$, como habíamos observado, no separan correctamente las clases fijadas, siendo el mejor \textit{accuracy} de 0.59. En este caso elegir modelos más complejos no ha proporcionado buenos resulados, al contrario que en la práctica anterior.
+Como es natural, la función $f$ es la que presenta mejores valores de ambas métricas. No llegan a ser un 1 exacto porque hemos generado un ruido de un 10\% en cada clase, que se corresponde con el 0.1 restante del \textit{accuracy}. Las funciones más complejas $f_i$, como habíamos observado, no separan correctamente las clases fijadas, siendo el mejor \textit{accuracy} de 0.59. En este caso, elegir modelos más complejos no ha proporcionado buenos resultados, al contrario que en la práctica anterior.
 
 \section{Modelos lineales}
 
@@ -310,7 +310,7 @@ Las funciones implementadas en este apartado, en particular \texttt{ajusta\_PLA}
 
 En este caso, nos encontramos frente a un conjunto de puntos separable, el algoritmo PLA, aunque necesite muchas iteraciones, encontrará el hiperplano que separa a los conjuntos.
 
-Tomando como punto inicial $w_0 = (0,0,0)^T$, las diez ejecuciones el algoritmo necesita \textbf{315 iteraciones} para encontrar el hiperplano que clasifica correctamente a todos los puntos. En la Figura \ref{fig:21} podemos ver el hiperplano generado por el algoritmo PLA al partir de $w_0$, notamos cómo todos los puntos están bien clasificados. Notamos que el algoritmo es determinista, al empezar en el mismo punto, obtiene los mismos resultados.
+Tomando como punto inicial $w_0 = (0,0,0)^T$, las diez ejecuciones el algoritmo necesita \textbf{315 iteraciones} para encontrar el hiperplano que clasifica correctamente a todos los puntos. En la Figura \ref{fig:21} podemos ver el hiperplano generado por el algoritmo PLA al partir de $w_0$. Notamos cómo todos los puntos están bien clasificados y que el algoritmo es determinista, pues al empezar en el mismo punto, obtiene los mismos resultados.
 
 \begin{figure}[H]
     \centering
@@ -319,9 +319,9 @@ Tomando como punto inicial $w_0 = (0,0,0)^T$, las diez ejecuciones el algoritmo 
     \label{fig:21}
 \end{figure}
 
-Si tomamos como puntos iniciales vectores aleatorios en $[0,1]$ el número de iteraciones necesarios varía, en el mejor caso necesita 172 iteraciones y en el peor 370. El \textbf{número medio de iteraciones requerido es de 291}, ligeramente inferior al caso anterior, sin embargo la desviación típica es de 61. Destacamos que cada punto inicial requiere un número de iteraciones variable, algunos mejores y otros peores que el caso anterior.
+Si tomamos como puntos iniciales vectores aleatorios en $[0,1]$ el número de iteraciones necesarios varía. En el mejor caso necesita 172 iteraciones y en el peor 370. El \textbf{número medio de iteraciones requerido es de 291}, ligeramente inferior al caso anterior, sin embargo la desviación típica es de 61. Destacamos que cada punto inicial requiere un número de iteraciones variable, algunos mejores y otros peores que el caso anterior.
 
-Como ocurre en general, los parámetros de un algoritmo afectan al desempeño del mismo. En este caso hemos observado cómo el punto inicial provoca un aumento o disminución en el número de iteraciones necesario para que el algoritmo encuentre los coeficientes del hiperplano que separa ambas clases. Sin embargo, notamos que, aunque el número de iteraciones varíe según el punto inicial, se logra encontrar el hiperplano que separa correctamente ambas clases, obtemos en todas las ocasiones un \textit{accuracy} de 1.
+Como ocurre en general, los parámetros de un algoritmo afectan al desempeño del mismo. En este caso hemos observado cómo el punto inicial provoca un aumento o disminución en el número de iteraciones necesario para que el algoritmo encuentre los coeficientes del hiperplano que separa ambas clases. Sin embargo, notamos que, aunque el número de iteraciones varíe según el punto inicial, se logra encontrar el hiperplano que separa correctamente ambas clases. Obtenemos en todas las ocasiones un \textit{accuracy} de 1.
 
 \subsubsection{Hacer lo mismo que antes usando ahora los datos del apartado 2b de la sección.1. ¿Observa algún comportamiento diferente? En caso afirmativo diga cuál y las razones para que ello ocurra.}
 
@@ -334,6 +334,34 @@ En esta ocasión, el algoritmo alcanza el número máximo de iteraciones sin lle
     \includegraphics[width=0.75\textwidth]{21ruido}
     \caption{Hiperplano generado por el algoritmo PLA partiendo del punto $(0,0,0)^T$.}
     \label{fig:21ruido}
+\end{figure}
+
+\subsection{En este ejercicio crearemos nuestra propia función objetivo $f$ (una probabilidad en este caso) y nuestro conjunto de datos $\mathcal{D}$ para ver cómo funciona regresión logística. Supondremos por simplicidad que $f$ es una probabilidad con valores 0/1 y por tanto que la etiqueta y es una función determinista de x.}
+
+\textbf{Consideremos $d = 2$ para que los datos sean visualizables, y sea $\mathcal{X} = [0, 2] \times [0, 2]$ con probabilidad uniforme de elegir cada $x \in \mathcal{X}$. Elegir una línea en el plano que pase por $\mathcal{X}$ como la frontera entre $f (x) = 1$ (donde $y$ toma valores +1) y $f (x) = 0$ (donde y toma valores -1), para ello seleccionar dos puntos aleatorios del plano y calcular la línea que pasa por ambos. Seleccionar $N = 100$ puntos aleatorios $\{x_n\}$ de $\mathcal{X}$ y evaluar las respuestas $\{y_n\}$ de todos ellos respecto de la frontera elegida.}
+
+\subsubsection{Implementar Regresión Logística (RL) con Gradiente Descendente Estocástico (SGD).}
+
+Esta función se encuentra implementada en la función \texttt{sgdRL}, cumpliendo las condiciones dadas. Para crear la muestra y la función se han utilizado las mismas funciones que en los apartados anteriores.
+
+\subsubsection{Usar la muestra de datos etiquetada para encontrar nuestra solución $g$ y estimar $E_{out}$ usando para ello un número suficientemente grande de nuevas muestras ($>999$).}
+
+Tras crear la muestra y etiquetarla, se utiliza la función \texttt{sgdRL} para encontrar el $w$ que determinará los coeficientes de la recta que buscamos. En la Figura \ref{fig:22b} observamos representados los puntos de la muestra, coloreados según su etiqueta junto a la recta obtenida. Vemos que la recta clasifica bien los puntos dados, el $E_{in}$ obtenido es pequeño 0.1356.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{2rl}
+    \caption{Puntos de la muestra y recta obtenida mediante SGD (RL).}
+    \label{fig:22b}
+\end{figure}
+
+Creamos un nuevo conjunto formado por 1000 elementos, que utilizaremos para estimar el error fuera de la muestra, y los etiquetamos. Calculamos el error obtenido al clasificar estos elementos con la recta conseguida con SGD, el $E_{out} = 0.1229$, ligeramente inferior. Sin embargo, en la Figura \ref{fig:2btest} vemos cómo ya la recta no se ajusta exactamente a los datos, los puntos en la frontera de las clases quedan mal clasificados. Esto se debe a que regresión logística no busca clasificar los datos, sino asignarles su probabilidad.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{2test}
+    \caption{Nuevos puntos y recta obtenida mediante SGD (RL).}
+    \label{fig:2btest}
 \end{figure}
 
 \newpage

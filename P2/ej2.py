@@ -6,14 +6,13 @@ import matplotlib.pyplot as plt
 from sklearn.utils import shuffle
 from sklearn.metrics import accuracy_score
 import seaborn as sns
-import math
 from numpy import linalg as LA
 from scipy.special import expit
 
 #-------------------------------------------------------------------
 # Fijamos la semilla
 np.random.seed(1)
-save = False
+save = True
 
 #-------------------------------------------------------------------
 # Calcula una lista de N vectores de dimensión dim
@@ -64,8 +63,8 @@ def modify_class(y):
 
     return y_mod
 
-# Gráfico de los puntos (x), coloreando su clase (y) y pintando la recta dada por a y b
-def plot_line(x, y, w, save = False, title = "", name = "", xlim = [-1, 1], ylim = [-1, 1]):
+# Gráfico de los puntos (x), coloreando su clase (y) y pintando la recta dada por los X*w
+def plot_line(x, y, w, save = False, title = "", name = "", xlim = [-1, 1], ylim = [-1, 1], eps = 5):
     sns.set()
     fig = plt.figure()
     ax = fig.add_subplot()
@@ -76,8 +75,8 @@ def plot_line(x, y, w, save = False, title = "", name = "", xlim = [-1, 1], ylim
 
     # Plot line
     delta = 0.3
-    A = np.arange(xlim[0] - 5, xlim[1] + 5, delta)
-    B = np.arange(ylim[0] - 5, ylim[1] + 5, delta)
+    A = np.arange(xlim[0] - eps, xlim[1] + eps, delta)
+    B = np.arange(ylim[0] - eps, ylim[1] + eps, delta)
     X, Y = np.meshgrid(A, B)
     zs = np.array([w[0] + x1*w[1] + y1*w[2] for x1,y1 in zip(np.ravel(X), np.ravel(Y))])
     Z = zs.reshape(X.shape)
@@ -176,14 +175,19 @@ def ej1_rand(points, y):
     input("\n--- Pulsar tecla para continuar ---\n")
 
 #-------------------------------------------------------------------
+# Error en regresión logística
+def  err(x, y, w):
+    x = np.hstack((np.ones((x.shape[0],1)), x))
+    y = y.reshape((y.shape[0], 1))
+    return np.mean(np.log(1 + np.exp(- y * np.dot(x, w))))
+    
+#-------------------------------------------------------------------
 def  grad_err(x, y, w):
+    y = y.reshape((y.shape[0], 1))
     den = expit(- y * np.dot(x, w))
-    print(y.shape)
-    print((y * np.dot(x, w)).shape)
     frac = y * den
-    print(frac.shape)
     vector = frac * x
-    return - (1 / x.shape[0]) * np.sum(vector, axis = 1)
+    return - (1 / x.shape[0]) * np.sum(vector, axis = 0)
     
 #-------------------------------------------------------------------
 # Gradiente Descendente Estocastico Regresión logística 
@@ -207,14 +211,15 @@ def sgdRL(x, y, lr, tam_minibatch = 1, w = np.zeros((3,1))):
         minibatchs_x = np.array_split(x, num_minibatch)
         minibatchs_y = np.array_split(y, num_minibatch)
         
-        w_ant = w
+        w_ant = w.copy()
 	        
         for xj, yj in zip(minibatchs_x, minibatchs_y):
             # Actualizamos w
-            w = w - lr * grad_err(xj, yj, w)
+            grad = grad_err(xj, yj, w)
+            grad = grad.reshape((grad.shape[0], 1))
+            w = w - lr * grad
 
         # Comprobamos la condición de parada
-        print(LA.norm(w - w_ant))
         iterate = LA.norm(w - w_ant) >= 0.01
 	
     return w
@@ -235,10 +240,36 @@ y_err = modify_class(y)
 
 print("Ejercicio 1------------------------------")
 print("Etiquetas sin ruido------------------------------")
-#ej1_zeros(points, y, save, "21", rango)
-#ej1_rand(points, y)
-print("Etiquetas con ruido------------------------------")
-#ej1_zeros(points, y_err, save, "21ruido", rango)
-#ej1_rand(points, y_err)
+ej1_zeros(points, y, save, "21", rango)
+ej1_rand(points, y)
 
-sgdRL(points, y, 0.01, tam_minibatch = 1)
+# Ejercicio 1 b ---------------------------------------------------
+print("Etiquetas con ruido------------------------------")
+ej1_zeros(points, y_err, save, "21ruido", rango)
+ej1_rand(points, y_err)
+
+
+#-------------------------------------------------------------------
+# Ejercicio 2  ---------------------------------------------------
+print("Ejercicio 2------------------------------")
+N = 100
+dim = 2
+rango = [0,2]
+intervalo = [0,2]
+points2 = simula_unif(N, dim, rango)
+a, b = simula_recta(intervalo)
+y2 = f(points2, a, b)
+
+w = sgdRL(points2, y2, 0.01)
+plot_line(points2, y2, w, save, title = "", name = "2rl", xlim = rango, ylim = rango, eps = 0.1)
+e_in = err(points2, y2, w)
+print("Ein: ", e_in)
+input("\n--- Pulsar tecla para continuar ---\n")
+
+N = 1000
+test = simula_unif(N, dim, rango)
+y_test = f(test, a, b)
+e_out = err(test, y_test, w)
+print("Eout: ", e_out)
+plot_line(test, y_test, w, save, title = "", name = "2test", xlim = rango, ylim = rango, eps = 0.1)
+input("\n--- Pulsar tecla para continuar ---\n")
