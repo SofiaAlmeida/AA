@@ -1,0 +1,340 @@
+%%%
+% Plantilla de Memoria
+% Modificación de una plantilla de Latex de Nicolas Diaz para adaptarla 
+% al castellano y a las necesidades de escribir informática y matemáticas.
+%
+% Editada por: Mario Román
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Thin Sectioned Essay
+% LaTeX Template
+% Version 1.0 (3/8/13)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original Author:
+% Nicolas Diaz (nsdiaz@uc.cl) with extensive modifications by:
+% Vel (vel@latextemplates.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PAQUETES Y CONFIGURACIÓN DEL DOCUMENTO
+%----------------------------------------------------------------------------------------
+
+%%% Configuración del papel.
+% microtype: Tipografía.
+% mathpazo: Usa la fuente Palatino.
+\documentclass[a4paper, 20pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage[protrusion=true,expansion=true]{microtype}
+\usepackage{mathpazo}
+
+% Indentación de párrafos para Palatino
+\setlength{\parindent}{0pt}
+  \parskip=8pt
+\linespread{1.05} % Change line spacing here, Palatino benefits from a slight increase by default
+
+
+%%% Castellano.
+% noquoting: Permite uso de comillas no españolas.
+% lcroman: Permite la enumeración con numerales romanos en minúscula.
+% fontenc: Usa la fuente completa para que pueda copiarse correctamente del pdf.
+\usepackage[spanish,es-noquoting,es-lcroman,es-tabla,,es-nodecimaldot]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{fontenc}
+\selectlanguage{spanish}
+
+
+%%% Gráficos
+\usepackage{graphicx} % Required for including pictures
+\usepackage{wrapfig} % Allows in-line images
+\usepackage[usenames,dvipsnames]{color} % Coloring code
+%\usepackage{subcaption}
+\usepackage{subfig}
+\graphicspath{{./fig/}}
+
+
+%%% Matemáticas
+\usepackage{amsmath}
+\usepackage{physics} % para las derivadas parciales
+\usepackage[Symbol]{upgreek} %pi
+
+%%% Pseudocódigo
+\usepackage{algorithmicx}
+\usepackage[ruled]{algorithm}
+\usepackage{algpseudocode}
+
+\newcommand{\alg}{\texttt{algorithmicx}}
+\newcommand{\old}{\texttt{algorithmic}}
+\newcommand{\euk}{Euclid}
+\newcommand\ASTART{\bigskip\noindent\begin{minipage}[b]{0.5\linewidth}}
+\newcommand\ACONTINUE{\end{minipage}\begin{minipage}[b]{0.5\linewidth}}
+\newcommand\AENDSKIP{\end{minipage}\bigskip}
+\newcommand\AEND{\end{minipage}}
+
+%%% Código
+\usepackage{listings}
+
+%%% Tablas
+\usepackage{tabularx}
+\usepackage{float}
+\usepackage{adjustbox}
+\usepackage{booktabs}
+
+% Enlaces y colores
+\usepackage{hyperref}
+\usepackage[dvipsnames]{xcolor}
+\definecolor{webgreen}{rgb}{0,0.5,0}
+\hypersetup{
+  colorlinks=true,
+  citecolor=RoyalBlue,
+  urlcolor=RoyalBlue,
+  linkcolor=RoyalBlue
+}
+
+%%% Bibliografía
+\usepackage[backend=biber]{biblatex}
+\DefineBibliographyStrings{spanish}{
+  urlseen = {Accedido}
+}
+\addbibresource{citations.bib}
+
+
+%%% Subsubsection con letras
+\renewcommand{\thesubsubsection}{\thesubsection.\alph{subsubsection}}
+
+%%% Itemize, enumitem
+\usepackage{paralist}
+\usepackage{enumitem}
+%----------------------------------------------------------------------------------------
+%	TÍTULO
+%----------------------------------------------------------------------------------------
+% Configuraciones para el título.
+% El título no debe editarse aquí.
+\renewcommand{\maketitle}{
+  \begin{flushright} % Right align
+  
+  {\LARGE\@title} % Increase the font size of the title
+  
+  \vspace{50pt} % Some vertical space between the title and author name
+  
+  {\large\@author} % Author name
+  \\\@date % Date
+  \vspace{40pt} % Some vertical space between the author block and abstract
+  \end{flushright}
+}
+
+%% Título
+\title{\textbf{Título}\\ % Title
+Subtítulo} % Subtitle
+
+\author{\textsc{Autor1,\\Autor2} % Author
+\\{\textit{Universidad de Granada}}} % Institution
+
+\date{\today} % Date
+
+%-----------------------------------------------------------------------------------------
+%	DOCUMENTO
+%-----------------------------------------------------------------------------------------
+
+\begin{document}
+
+%-----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%-----------------------------------------------------------------------------------------
+
+\begin{titlepage} % Suppresses displaying the page number on the title page and the subsequent page counts as page 1
+	
+	\raggedleft % Right align the title page
+	
+	\rule{1pt}{\textheight} % Vertical line
+	\hspace{0.05\textwidth} % Whitespace between the vertical line and title page text
+	\parbox[b]{0.8\textwidth}{ % Paragraph box for holding the title page text, adjust the width to move the title page left or right on the page
+		
+		{\Huge\bfseries Trabajo 3:\\[0.5\baselineskip] Programación\\[0.5\baselineskip]\large AJUSTE DE MODELOS LINEALES\\[2\baselineskip]} % Title
+		{\large\textit{Curso 2019/2020}\\[0.5\baselineskip]Aprendizaje Automático\\[1.5\baselineskip] }% Subtitle or further description
+		{\Large\textsc{Sofía Almeida Bruno}\\[0.5\baselineskip]sofialmeida@correo.ugr.es} % Author name, lower case for consistent small caps
+		
+		\vspace{0.4\textheight} % Whitespace between the title block and the publisher
+		
+		{\noindent \\[0.5\baselineskip] }\\[\baselineskip] % Publisher and logo
+	}
+
+\end{titlepage}
+
+%% Resumen (Descomentar para usarlo)
+%\renewcommand{\abstractname}{Resumen} % Uncomment to change the name of the abstract to something else
+%\begin{abstract}
+% Resumen aquí
+%\end{abstract}
+
+%% Palabras clave
+%\hspace*{3,6mm}\textit{Keywords:} lorem , ipsum , dolor , sit amet , lectus % Keywords
+%\vspace{30pt} % Some vertical space between the abstract and first section
+
+
+%% Índice
+{\parskip=2pt
+  \tableofcontents
+}
+\pagebreak
+
+%%% Inicio del documento
+
+%% 1. Comprender el problema a resolver. Identificar los elementos X, Y and f del problema.
+\section{Problemas a resolver}
+
+%% I ¿Qué base de datos tenemos?
+%% I ¿Qué representan las columnas? ¿Son numéricas o
+%% categóricas?
+%% I ¿Qué hay en la variable de clase?
+%% I ¿Se trata de un problema de aprendizaje supervisado o no
+%% supervisado?
+%% I ¿Es un problema de regresión o de clasificación?
+Communities and Crime. Comunidades y crímenes. \cite{com_uci}
+
+Obtenemos cierta información consultando el archivo \texttt{communities.names}. En él se presenta esta base de datos de comunidades de Estados Unidos. Se explica que es una combinación de datos socio-económicos del senso del 1990, datos de los cuerpos policiales de la encuesta LEMAS (\textit{Law Enforcement Management and Administrative Statistics}) de 1990 y datos del UCR (\textit{Uniform Crime Reporting}) del FBI de 1995.
+
+Es un conjunto de características multivariante, como podríamos esperar, las características son reales. Indican que la tarea asociada sería regresión. Hay 1994 instancias y 128 atributos, con valores perdidos. Las variables fueron escogidas según si tenían alguna posible relación con ``crimen'' o con la variable a predecir ``Per Capita Violent Crimes'' (Crímenes violentos por habitante). Las variables incluidas tienen relación con la comunidad (porcentaje de la población considerado urbano, ingresos medios por famila) y con los cuerpos de seguridad (número de policías por habitante, porcentaje de policías asignados a unidades de drogas). La variable crímenes violentos por habitante se calculó usando la población y la suma de los crímenes considerados violentos en Estados Unidos (asesinatos, violaciones, atracos y ataques). Como hubo controversia sobre si considerar la violación como crimen violento en algunas comunidades y esto originaba valores perdidos que resultaban en valores incorrectos de la variable a predecir, estas ciudades no se incluyen en el conjunto de datos (mayoritariamente de medio oeste de los Estados Unidos). Una limitación del conjunto de datos es que la encueta LEMAS se hace en departamentos de policía con más de 100 miembros y una muestra aleatoria de departamentos más pequeños. Las comunidades que no se encontraran tanto en el censo como en las bases de datos de crímenes se omitieron, por lo que faltan muchas comunidades.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 2. Selección de las clase/s de funciones a usar. Identificar cuáles y porqué.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Clases de funciones}
+% Combinaciones lineales, cuadráticas, etc... de las observaciones.
+% Justificar su uso o por qué no se consideran necesarias.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 3. Fijar conjuntos de training y test que sean coherentes.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conjuntos de \textit{training} y \textit{test}}
+%% TRAINING → Subconjunto de los datos que se estudia, se
+%% visualiza y a la que se le aplican los modelos.
+%% VALIDACIÓN → Subconjunto de los datos que indica cuál es el
+%% mejor modelo.
+%% TEST → Subconjunto de los datos que proporciona el error
+%% cometido.
+%% Posibles particiones:
+%% I Si se decide usar el conjunto Validación: 50% training, 25%
+%% Validación y 25% test.
+%% I Si no se decide usar el conjunto de Validación: 70%
+%% training y 30% test u 80% training y 20% test.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 4. Preprocesado los datos: codificación, normalización, proyección, etc. Es decir, todas las
+%% manipulaciones sobre los datos iniciales hasta fijar el conjunto de vectores de caraterísticas
+%% que se usarán en el entrenamiento.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Preprocesado}
+%% ¿Por qué se preprocesan los datos?
+%% Para eliminar impurezas y reducir la probabilidad de aprender de
+%% manera errónea de los datos. Causas:
+%% I Datos incompletos (Valores perdidos)
+%% I Datos con ruido
+%% I Datos inconsistentes
+
+%% Tareas:
+%% (esta lista es una sugerencia, por favor, elegid las que consideréis interesantes y/o necesarias)
+%% I Colección, integración y transformación
+%% Obtención de los datos, de una o más fuentes
+%% Decodificación
+%% Integración de datos de distintas bases de datos
+%% Generación nuevo conocimiento
+%% I Limpieza
+%% - Modificación de datos con conflicto
+%% - Eliminación de outliers
+%% - Tratamiento de valores perdidos y problemas de ruido
+%% I Reducción
+%% - Selección de características
+%% - Selección de instancias
+%% - Discretización
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 5. Fijar la métrica de error a usar. Discutir su idoneidad para el problema.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Métrica de error}
+%% Elegir la métrica a usar y discutir su elección. Teniendo en cuenta
+%% si se trata de un problema de regresión o de clasificación, así
+%% como el tipo de problema a tratar.
+%% I Regresión Aquí y Aquí
+%% I Clasificación Aquí
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 6. Discutir la técnica de ajuste elegida.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Técnica de ajuste}
+%% Según modelo a usar, qué técnica de ajuste utilizas (SGD,
+%% Pseudoinversa...) y razone por qué lo has elegido.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 7. Discutir la necesidad de regularización y en su caso la justificar la función usada para ello.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Regularización}
+%% La regularización se trata del método que penaliza la complejidad
+%% del modelo, al usar función de coste. Produciendo modelos más
+%% simples que generalizan mejor.
+%% I L1 (Regularización Lasso) → Interesante cuando se observa
+%% que algunas de las características no influyen demasiado en
+%% el modelo. Al dar coeficientes a cada atributo para generar
+%% la combinación de ellas, ciertos coeficientes tenderán a 0.
+%% Funciona mejor cuando los atributos no están correlados
+%% entre sí.
+%% I L2 (Regularización Ridge) → Útil cuando parezca que
+%% varios de los atributos están correlados entre ellos.
+%% Hace que los coeficientes sean pequeños.
+%% Funciona mejor cuando la mayoría de los atributos son
+%% relevantes.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 8. Identificar los modelos a usar.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Modelos}
+%% Posibles modelos a usar:
+%% I Regresión lineal
+%% I Regresión logística
+%% I Perceptrón + Pocket
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 9. Estimación de hiperparámetros y selección del mejor modelo.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Estimación de hiperparámetros}
+%% 1. Ajustar los hiperparámetros del modelo.
+%% 2. Ajustar los datos de validación (o test).
+%% 3. Seleccionar el que se considera el mejor de los modelos y
+%% argumentar por qué se elige.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 10. Estimación por validación cruzada del error E out del modelo. Compárela con E test , ¿que
+%% conclusiones obtiene?
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Estimación del error}
+%% Especificar el error que se produce al ajustar el modelo.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 11. Suponga que Ud ha sido encargado de realizar este ajuste para una empresa. ¿Qué modelo
+%% les propondría y que error E out les diría que tiene?. Justifique las decisiones.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusiones}
+%% Responder y argumentar:
+%% I ¿Representa el modelo de manera adecuada los datos?
+%% I ¿Consideras que la calidad del modelo es buena?
+%% I ¿Es tu modelo el que proporciona el mejor error?
+%% I ¿Por qué te has decidido por este modelo?
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\printbibliography
+\end{document}
