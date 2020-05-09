@@ -1,8 +1,7 @@
 %%%
 % Plantilla de Memoria
 % Modificación de una plantilla de Latex de Nicolas Diaz para adaptarla 
-% al castellano y a las necesidades de escribir informática y matemáticas.
-%
+% al castellano y a las necesidades de escribir informática y matemática%
 % Editada por: Mario Román
 %
 % License:
@@ -188,10 +187,9 @@ Subtítulo} % Subtitle
 }
 \pagebreak
 
-%%% Inicio del documento
-
+\section{}
 %% 1. Comprender el problema a resolver. Identificar los elementos X, Y and f del problema.
-\section{Problemas a resolver}
+\subsection{Problemas a resolver}
 
 %% I ¿Qué base de datos tenemos?
 %% I ¿Qué representan las columnas? ¿Son numéricas o
@@ -200,25 +198,17 @@ Subtítulo} % Subtitle
 %% I ¿Se trata de un problema de aprendizaje supervisado o no
 %% supervisado?
 %% I ¿Es un problema de regresión o de clasificación?
-Communities and Crime. Comunidades y crímenes. \cite{com_uci}
-
-Obtenemos cierta información consultando el archivo \texttt{communities.names}. En él se presenta esta base de datos de comunidades de Estados Unidos. Se explica que es una combinación de datos socio-económicos del senso del 1990, datos de los cuerpos policiales de la encuesta LEMAS (\textit{Law Enforcement Management and Administrative Statistics}) de 1990 y datos del UCR (\textit{Uniform Crime Reporting}) del FBI de 1995.
-
-Es un conjunto de características multivariante, como podríamos esperar, las características son reales. Indican que la tarea asociada sería regresión. Hay 1994 instancias y 128 atributos, con valores perdidos. Las variables fueron escogidas según si tenían alguna posible relación con ``crimen'' o con la variable a predecir ``Per Capita Violent Crimes'' (Crímenes violentos por habitante). Las variables incluidas tienen relación con la comunidad (porcentaje de la población considerado urbano, ingresos medios por famila) y con los cuerpos de seguridad (número de policías por habitante, porcentaje de policías asignados a unidades de drogas). La variable crímenes violentos por habitante se calculó usando la población y la suma de los crímenes considerados violentos en Estados Unidos (asesinatos, violaciones, atracos y ataques). Como hubo controversia sobre si considerar la violación como crimen violento en algunas comunidades y esto originaba valores perdidos que resultaban en valores incorrectos de la variable a predecir, estas ciudades no se incluyen en el conjunto de datos (mayoritariamente de medio oeste de los Estados Unidos). Una limitación del conjunto de datos es que la encueta LEMAS se hace en departamentos de policía con más de 100 miembros y una muestra aleatoria de departamentos más pequeños. Las comunidades que no se encontraran tanto en el censo como en las bases de datos de crímenes se omitieron, por lo que faltan muchas comunidades.
-
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 2. Selección de las clase/s de funciones a usar. Identificar cuáles y porqué.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Clases de funciones}
+\subsection{Clases de funciones}
 % Combinaciones lineales, cuadráticas, etc... de las observaciones.
 % Justificar su uso o por qué no se consideran necesarias.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 3. Fijar conjuntos de training y test que sean coherentes.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Conjuntos de \textit{training} y \textit{test}}
+\subsection{Conjuntos de \textit{training} y \textit{test}}
 %% TRAINING → Subconjunto de los datos que se estudia, se
 %% visualiza y a la que se le aplican los modelos.
 %% VALIDACIÓN → Subconjunto de los datos que indica cuál es el
@@ -236,7 +226,7 @@ Es un conjunto de características multivariante, como podríamos esperar, las c
 %% manipulaciones sobre los datos iniciales hasta fijar el conjunto de vectores de caraterísticas
 %% que se usarán en el entrenamiento.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Preprocesado}
+\subsection{Preprocesado}
 %% ¿Por qué se preprocesan los datos?
 %% Para eliminar impurezas y reducir la probabilidad de aprender de
 %% manera errónea de los datos. Causas:
@@ -263,7 +253,7 @@ Es un conjunto de características multivariante, como podríamos esperar, las c
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 5. Fijar la métrica de error a usar. Discutir su idoneidad para el problema.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Métrica de error}
+\subsection{Métrica de error}
 %% Elegir la métrica a usar y discutir su elección. Teniendo en cuenta
 %% si se trata de un problema de regresión o de clasificación, así
 %% como el tipo de problema a tratar.
@@ -273,7 +263,7 @@ Es un conjunto de características multivariante, como podríamos esperar, las c
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 6. Discutir la técnica de ajuste elegida.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Técnica de ajuste}
+\subsection{Técnica de ajuste}
 %% Según modelo a usar, qué técnica de ajuste utilizas (SGD,
 %% Pseudoinversa...) y razone por qué lo has elegido.
 
@@ -281,7 +271,7 @@ Es un conjunto de características multivariante, como podríamos esperar, las c
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 7. Discutir la necesidad de regularización y en su caso la justificar la función usada para ello.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Regularización}
+\subsection{Regularización}
 %% La regularización se trata del método que penaliza la complejidad
 %% del modelo, al usar función de coste. Produciendo modelos más
 %% simples que generalizan mejor.
@@ -300,7 +290,7 @@ Es un conjunto de características multivariante, como podríamos esperar, las c
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 8. Identificar los modelos a usar.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Modelos}
+\subsection{Modelos}
 %% Posibles modelos a usar:
 %% I Regresión lineal
 %% I Regresión logística
@@ -310,7 +300,7 @@ Es un conjunto de características multivariante, como podríamos esperar, las c
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 9. Estimación de hiperparámetros y selección del mejor modelo.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Estimación de hiperparámetros}
+\subsection{Estimación de hiperparámetros}
 %% 1. Ajustar los hiperparámetros del modelo.
 %% 2. Ajustar los datos de validación (o test).
 %% 3. Seleccionar el que se considera el mejor de los modelos y
@@ -320,14 +310,163 @@ Es un conjunto de características multivariante, como podríamos esperar, las c
 %% 10. Estimación por validación cruzada del error E out del modelo. Compárela con E test , ¿que
 %% conclusiones obtiene?
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Estimación del error}
+\subsection{Estimación del error}
 %% Especificar el error que se produce al ajustar el modelo.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 11. Suponga que Ud ha sido encargado de realizar este ajuste para una empresa. ¿Qué modelo
 %% les propondría y que error E out les diría que tiene?. Justifique las decisiones.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Conclusiones}
+\subsection{Conclusiones}
+%% Responder y argumentar:
+%% I ¿Representa el modelo de manera adecuada los datos?
+%% I ¿Consideras que la calidad del modelo es buena?
+%% I ¿Es tu modelo el que proporciona el mejor error?
+%% I ¿Por qué te has decidido por este modelo?
+\newpage
+
+
+\section{Communities and Crime}
+%%% Inicio del documento
+
+%% 1. Comprender el problema a resolver. Identificar los elementos X, Y and f del problema.
+\subsection{Problemas a resolver}
+
+%% I ¿Qué base de datos tenemos?
+%% I ¿Qué representan las columnas? ¿Son numéricas o
+%% categóricas?
+%% I ¿Qué hay en la variable de clase?
+%% I ¿Se trata de un problema de aprendizaje supervisado o no
+%% supervisado?
+%% I ¿Es un problema de regresión o de clasificación?
+Nos encontramos frente a la base de datos \textit{Communities and Crime}, Comunidades y crímenes \cite{com_uci}.
+
+Obtenemos cierta información consultando el archivo \texttt{communities.names}. En él se presenta esta base de datos de comunidades de Estados Unidos. Se explica que es una combinación de datos socio-económicos del senso del 1990, datos de los cuerpos policiales de la encuesta LEMAS (\textit{Law Enforcement Management and Administrative Statistics}) de 1990 y datos del UCR (\textit{Uniform Crime Reporting}) del FBI de 1995.
+
+Es un conjunto de características multivariante, como podríamos esperar, las características son reales. Indican que la tarea asociada sería regresión. Hay 1994 instancias y 128 atributos, con valores perdidos. Las variables fueron escogidas según si tenían alguna posible relación con ``crimen'' o con la variable a predecir ``Per Capita Violent Crimes'' (Crímenes violentos por habitante). Las variables incluidas tienen relación con la comunidad (porcentaje de la población considerado urbano, ingresos medios por famila) y con los cuerpos de seguridad (número de policías por habitante, porcentaje de policías asignados a unidades de drogas). La variable crímenes violentos por habitante se calculó usando la población y la suma de los crímenes considerados violentos en Estados Unidos (asesinatos, violaciones, atracos y ataques). Como hubo controversia sobre si considerar la violación como crimen violento en algunas comunidades y esto originaba valores perdidos que resultaban en valores incorrectos de la variable a predecir, estas ciudades no se incluyen en el conjunto de datos (mayoritariamente de medio oeste de los Estados Unidos). Una limitación del conjunto de datos es que la encueta LEMAS se hace en departamentos de policía con más de 100 miembros y una muestra aleatoria de departamentos más pequeños. Las comunidades que no se encontraran tanto en el censo como en las bases de datos de crímenes se omitieron, por lo que faltan muchas comunidades.
+
+Queremos obtener información sobre el problema al que nos enfrentamos y saber de forma precisa cómo son sus variables, de qué tipos, en qué rangos se encuentran, \cdots En el archivo \texttt{visualization-ccrimes.py} implementaremos el código necesario para obtener esta información. Comenzamos leyendo los nombres de los atributos y el conjunto de datos. Nuestro conjunto de datos tiene 1994 y 128 atributos. De los cuales 127 son numéricos, 2 de ellos enteros y 1 es una cadena de caracteres (el nombre de la comunidad). Atendiendo a la documentación, la característica \texttt{communityname} es la que se expresa como texto, además se indica que \textit{not predictive}, el nombre de la comunidad, así como el código numérico de la misma, son únicos para cada comunidad, no aportarán nada a la hora de predecir, por lo que no las utilizaremos para el proceso de aprendizaje. Buscaremos las variables calificadas de \textit{not predictive} y las eliminamos del conjunto. Estas son: \texttt{state, county, community, communityname} y \texttt{fold}. Tenemos ahora un conjunto con 123 características.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 2. Selección de las clase/s de funciones a usar. Identificar cuáles y porqué.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Clases de funciones}
+% Combinaciones lineales, cuadráticas, etc... de las observaciones.
+% Justificar su uso o por qué no se consideran necesarias.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 3. Fijar conjuntos de training y test que sean coherentes.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Conjuntos de \textit{training} y \textit{test}}
+%% TRAINING → Subconjunto de los datos que se estudia, se
+%% visualiza y a la que se le aplican los modelos.
+%% VALIDACIÓN → Subconjunto de los datos que indica cuál es el
+%% mejor modelo.
+%% TEST → Subconjunto de los datos que proporciona el error
+%% cometido.
+%% Posibles particiones:
+%% I Si se decide usar el conjunto Validación: 50% training, 25%
+%% Validación y 25% test.
+%% I Si no se decide usar el conjunto de Validación: 70%
+%% training y 30% test u 80% training y 20% test.
+% https://towardsdatascience.com/train-validation-and-test-sets-72cb40cba9e7
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 4. Preprocesado los datos: codificación, normalización, proyección, etc. Es decir, todas las
+%% manipulaciones sobre los datos iniciales hasta fijar el conjunto de vectores de caraterísticas
+%% que se usarán en el entrenamiento.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Preprocesado}
+%% ¿Por qué se preprocesan los datos?
+%% Para eliminar impurezas y reducir la probabilidad de aprender de
+%% manera errónea de los datos. Causas:
+%% I Datos incompletos (Valores perdidos)
+%% I Datos con ruido
+%% I Datos inconsistentes
+
+%% Tareas:
+%% (esta lista es una sugerencia, por favor, elegid las que consideréis interesantes y/o necesarias)
+%% I Colección, integración y transformación
+%% Obtención de los datos, de una o más fuentes
+%% Decodificación
+%% Integración de datos de distintas bases de datos
+%% Generación nuevo conocimiento
+%% I Limpieza
+%% - Modificación de datos con conflicto
+%% - Eliminación de outliers
+%% - Tratamiento de valores perdidos y problemas de ruido
+%% I Reducción
+%% - Selección de características
+%% - Selección de instancias
+%% - Discretización
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 5. Fijar la métrica de error a usar. Discutir su idoneidad para el problema.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Métrica de error}
+%% Elegir la métrica a usar y discutir su elección. Teniendo en cuenta
+%% si se trata de un problema de regresión o de clasificación, así
+%% como el tipo de problema a tratar.
+%% I Regresión Aquí y Aquí
+%% I Clasificación Aquí
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 6. Discutir la técnica de ajuste elegida.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Técnica de ajuste}
+%% Según modelo a usar, qué técnica de ajuste utilizas (SGD,
+%% Pseudoinversa...) y razone por qué lo has elegido.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 7. Discutir la necesidad de regularización y en su caso la justificar la función usada para ello.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Regularización}
+%% La regularización se trata del método que penaliza la complejidad
+%% del modelo, al usar función de coste. Produciendo modelos más
+%% simples que generalizan mejor.
+%% I L1 (Regularización Lasso) → Interesante cuando se observa
+%% que algunas de las características no influyen demasiado en
+%% el modelo. Al dar coeficientes a cada atributo para generar
+%% la combinación de ellas, ciertos coeficientes tenderán a 0.
+%% Funciona mejor cuando los atributos no están correlados
+%% entre sí.
+%% I L2 (Regularización Ridge) → Útil cuando parezca que
+%% varios de los atributos están correlados entre ellos.
+%% Hace que los coeficientes sean pequeños.
+%% Funciona mejor cuando la mayoría de los atributos son
+%% relevantes.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 8. Identificar los modelos a usar.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Modelos}
+%% Posibles modelos a usar:
+%% I Regresión lineal
+%% I Regresión logística
+%% I Perceptrón + Pocket
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 9. Estimación de hiperparámetros y selección del mejor modelo.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Estimación de hiperparámetros}
+%% 1. Ajustar los hiperparámetros del modelo.
+%% 2. Ajustar los datos de validación (o test).
+%% 3. Seleccionar el que se considera el mejor de los modelos y
+%% argumentar por qué se elige.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 10. Estimación por validación cruzada del error E out del modelo. Compárela con E test , ¿que
+%% conclusiones obtiene?
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Estimación del error}
+%% Especificar el error que se produce al ajustar el modelo.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 11. Suponga que Ud ha sido encargado de realizar este ajuste para una empresa. ¿Qué modelo
+%% les propondría y que error E out les diría que tiene?. Justifique las decisiones.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Conclusiones}
 %% Responder y argumentar:
 %% I ¿Representa el modelo de manera adecuada los datos?
 %% I ¿Consideras que la calidad del modelo es buena?
@@ -337,4 +476,5 @@ Es un conjunto de características multivariante, como podríamos esperar, las c
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \printbibliography
+% https://realpython.com/pandas-python-explore-dataset/
 \end{document}
