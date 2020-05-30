@@ -91,17 +91,17 @@ preprocessing = Pipeline(steps=[
 
 X_train = preprocessing.fit_transform(X_train, y_train)
 
-lreg =  SGDRegressor(tol=1e-4)
-lreg.fit(X_train, y_train)
-params_lreg =  {'alpha':[1/(10.0**i) for i in range(1,5)], 'learning_rate':['constant', 'optimal','invscaling', 'adaptive'], 'max_iter':[5000,10000,15000]}
+reg =  SGDRegressor(tol=1e-4)
+reg.fit(X_train, y_train)
+params_reg =  {'alpha':[1/(10.0**i) for i in range(1,5)], 'learning_rate':['constant', 'optimal','invscaling', 'adaptive'], 'max_iter':[5000,10000,15000]}
 
-best_lreg = adjust_params(X_train, y_train, lreg, params_lreg)
+best_reg = adjust_params(X_train, y_train, reg, params_reg)
 
 # Preprocesamos el conjunto de test 
 X_test = X_test.drop(labels = to_drop, axis=1)
 X_test = preprocessing.transform(X_test)
 
 # Utilizando el mejor modelo predecimos el valor de X_test
-y_pred = best_lreg.predict(X_test)
+y_pred = best_reg.predict(X_test)
 mse = mean_squared_error(y_test, y_pred)
 print("Error cuadrático medio en test: {:.4f}".format(mse))
