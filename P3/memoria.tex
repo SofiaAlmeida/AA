@@ -354,7 +354,7 @@ Obtenemos cierta información consultando el archivo \texttt{communities.names}.
 
 Es un conjunto de características multivariante, como podríamos esperar, las características son reales y han sido escaladas al intervalo $[0,1]$. Indican que la tarea asociada sería regresión, por tanto, nos encontramos frente a un problema de aprendizaje supervisado donde queremos predecir una variable numérica real. Hay 1994 instancias y 128 atributos, con valores perdidos. Las variables fueron escogidas según si tenían alguna posible relación con \textit{crimen} o con la variable a predecir \textit{Per Capita Violent Crimes} (Crímenes violentos por habitante). Las variables incluidas tienen relación con la comunidad (porcentaje de la población considerado urbano, ingresos medios por famila) y con los cuerpos de seguridad (número de policías por habitante, porcentaje de policías asignados a unidades de drogas). La variable crímenes violentos por habitante se calculó usando la población y la suma de los crímenes considerados violentos en Estados Unidos (asesinatos, violaciones, atracos y ataques). Como hubo controversia sobre si considerar la violación como crimen violento en algunas comunidades y esto originaba valores perdidos que resultaban en valores incorrectos de la variable a predecir, estas ciudades no se incluyen en el conjunto de datos (mayoritariamente del medio oeste de los Estados Unidos). Una limitación del conjunto de datos es que la encueta LEMAS se hace en departamentos de policía con más de 100 miembros y una muestra aleatoria de departamentos más pequeños. Las comunidades que no se encontraran tanto en el censo como en las bases de datos de crímenes se omitieron, por lo que faltan muchas comunidades.
 
-Queremos obtener información sobre el problema al que nos enfrentamos y saber de forma precisa cómo son sus variables, de qué tipos, en qué rangos se encuentran, $\cdots$ En el archivo \texttt{visualization-ccrimes.py} implementaremos el código necesario para obtener esta información. Comenzamos leyendo los nombres de los atributos y el conjunto de datos. Nuestro conjunto de datos tiene 1994 y 128 atributos, de los cuales 127 son numéricos, 2 de ellos enteros y 1 es una cadena de caracteres (el nombre de la comunidad). Atendiendo a la documentación, la característica \texttt{communityname} es la que se expresa como texto, además se indica que es \textit{not predictive}. El nombre de la comunidad, así como el código numérico de la misma, son únicos para cada comunidad, no aportarán nada a la hora de predecir, por lo que no las utilizaremos en el proceso de aprendizaje. Buscamos las variables calificadas de \textit{not predictive} y las eliminamos del conjunto. Estas son: \texttt{state, county, community, communityname} y \texttt{fold}. Tenemos ahora un conjunto con 123 características. $N=123$.
+Queremos obtener información sobre el problema al que nos enfrentamos y saber de forma precisa cómo son sus variables, de qué tipos, en qué rangos se encuentran, $\cdots$ En el archivo \texttt{visualization-ccrimes.py} implementaremos el código necesario para obtener esta información. Comenzamos leyendo los nombres de los atributos y el conjunto de datos. Nuestro conjunto de datos tiene 1994 ($N = 1994$) y 128 atributos, de los cuales 127 son numéricos, 2 de ellos enteros y 1 es una cadena de caracteres (el nombre de la comunidad). Atendiendo a la documentación, la característica \texttt{communityname} es la que se expresa como texto, además se indica que es \textit{not predictive}. El nombre de la comunidad, así como el código numérico de la misma, son únicos para cada comunidad, no aportarán nada a la hora de predecir, por lo que no las utilizaremos en el proceso de aprendizaje. Buscamos las variables calificadas de \textit{not predictive} y las eliminamos del conjunto. Estas son: \texttt{state, county, community, communityname} y \texttt{fold}. Tenemos ahora un conjunto con 123 características, $n=123$.
 
 No podemos imprimir información sobre todas las variables a la vez, ya que son demasiadas. Nos interesamos en la variable a predecir \texttt{ViolentCrimesPerPop}. Esta variable indica el número de crímenes violentos para una población de 100000 habitantes y, como el resto de variables, ha sido escalada, luego toma valores en el intervalo $[0,1]$. En la Figura \ref{fig:histVCPP} observamos su distribución. Para la mayoría de los ejemplos tiene un valor menor que 0.3.
 
@@ -383,11 +383,11 @@ El porcentaje de valores perdidos en cada una de ellas es de 84.002006\%, except
 % Justificar su uso o por qué no se consideran necesarias.
 % https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PolynomialFeatures.html#sklearn.preprocessing.PolynomialFeatures
 Para realizar la predicción utilizaremos una clase de funciones lineal en el vector de pesos $w$. Como no tenemos mucha información sobre cómo se comportan los datos y qué relaciones existen entre ellos, consideramos que limitarnos a la clase \[
-\mathcal{H}_0 = \{w_0 + w_1x_1 +\cdots + w_Nx_N : w \in R^{N+1}\}
+\mathcal{H}_0 = \{w_0 + w_1x_1 +\cdots + w_nx_n : w \in R^{n+1}\}
 \]
 que podría ser una primera opción natural, no será suficiente en este caso. Tenemos bastantes variables y podrían existir relaciones no lineales entre ellas. Además, combinaciones lineales de las variables podrían aportar más información que las variables por separado. Añadir complejidad a la clase de funciones nos permitirá aprovechar estas posibles relaciones no lineales entre las variables, si existieran. Es por esto, que la clase de funciones a utilizar es la de los polinomios de las variables de hasta orden 2.
  \[
-\mathcal{H} = \left \{w_0 + w_1x_1 +\cdots + w_Nx_N + \sum_{i,j = 1}^Nw_{ij} x_ix_j\right\}.
+\mathcal{H} = \left \{w_0 + w_1x_1 +\cdots + w_nx_n + \sum_{i,j = 1}^Nw_{ij} x_ix_j\right\}.
 \]
 Notamos que aunque la clase de funciones sea cuadrática en las variables $x_i$, es lineal respecto a $w$.
 
@@ -444,9 +444,9 @@ Además, para la seleccion del modelo utilizaremos validación cruzada con 5 par
 
 Nos encontramos con un conjunto de 127 variables (más la variable a predecir) que ha sido previamente escalado al intervalo $[0,1]$. En primer lugar, se eliminarán las variables calificadas por los creadores de la base de datos como \textit{not predictive}. A continuación, se tratan las variables con valores perdidos, ya hemos visto que son 23.  
 
-Para las variables que presenten valores perdidos se utilizará el siguiente criterio: si el porcentaje de valores desconocidos supera el 30\%, eliminaremos la variable, pues se considera que pasado el umbral la información que estaríamos añadiendo al problema sería demasiada y podría no coincidir con la realidad; en caso contrario, si el porcentaje de valores desconocidos es inferior al 30\%, se rellenarán estos valores mediante la técnica del vecino más cercano (\cite{}). Se barajó la opción de utilizar sustituir los valores perdidos por el valor medio para esta variable, pero esto provocaría errores grandes si nos las variables tuvieran ruido. Tras este paso, tendremos 100 de las variables originales.
+Para las variables que presenten valores perdidos se utilizará el siguiente criterio: si el porcentaje de valores desconocidos supera el 30\%, eliminaremos la variable, pues se considera que pasado el umbral la información que estaríamos añadiendo al problema sería demasiada y podría no coincidir con la realidad; en caso contrario, si el porcentaje de valores desconocidos es inferior al 30\%, se rellenarán estos valores mediante la técnica del vecino más cercano \cite{knnimputer}. Se barajó la opción de utilizar sustituir los valores perdidos por el valor medio para esta variable, pero esto provocaría errores grandes si nos las variables tuvieran ruido. Tras este paso, tendremos 100 de las variables originales.
 
-Como la clase de funciones a utilizar, polinomios de las variables de hasta orden 2, añade nuevas características, pasamos de tener las 127 variables originales a tener 5151, lo que aumentará considerablemente el tiempo de cómputo. Además, como estas variables se han formado a partir de las originales, podrían, por un lado, resumir en una única variable información sobre dos de las originales, o, por otro lado, generar información redundante. Es por esto, que se procederá a seleccionar variables. Para seleccionar las variables más relevantes se utilizará la regularización LASSO, que dará un peso nulo a aquellas variables que no aporten mucha información para el proceso de aprendizaje (\cite{}). 
+Como la clase de funciones a utilizar, polinomios de las variables de hasta orden 2, añade nuevas características, pasamos de tener las 127 variables originales a tener 5151, lo que aumentará considerablemente el tiempo de cómputo. Además, como estas variables se han formado a partir de las originales, podrían, por un lado, resumir en una única variable información sobre dos de las originales, o, por otro lado, generar información redundante. Es por esto, que se procederá a seleccionar variables. Para seleccionar las variables más relevantes se utilizará la regularización LASSO, que dará un peso nulo a aquellas variables que no aporten mucha información para el proceso de aprendizaje \cite{lasso}. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 5. Fijar la métrica de error a usar. Discutir su idoneidad para el problema.
@@ -457,7 +457,7 @@ Como la clase de funciones a utilizar, polinomios de las variables de hasta orde
 %% como el tipo de problema a tratar.
 %% I Regresión Aquí y Aquí
 %% I Clasificación Aquí
-Como nos encontramos ante un problema de regresión lineal, elegerimos la métrica de error usual en este tipo de problemas: error cuadrático medio. Para medir el error cometido al predecir el valor de las variables del conjunto $\{(x_1,y_1),\cdots,(x_n,y_n)\}$, donde $x_i$ es el vector de características e $y_i$ el verdadero valor de \textit{Per Capita Violent Crimes}, utilizando nuestra función hipótesis $h$, haremos:\[
+Como nos encontramos ante un problema de regresión lineal, elegiremos la métrica de error usual en este tipo de problemas: error cuadrático medio. Para medir el error cometido al predecir el valor de las variables del conjunto $\{(x_1,y_1),\cdots,(x_n,y_n)\}$, donde $x_i$ es el vector de características e $y_i$ el verdadero valor de \textit{Per Capita Violent Crimes}, utilizando nuestra función hipótesis $h$, haremos:\[
 E(h) = \frac{1}{n}\sum_{i=1}^n\left(y_i-h(x_i)\right)^2.
 \]
 
@@ -478,7 +478,8 @@ Por la naturaleza del problema, vamos a predecir una variable numérica en un in
 %% Según modelo a usar, qué técnica de ajuste utilizas (SGD,
 %% Pseudoinversa...) y razone por qué lo has elegido.
 
-SGD por eficiencia, al haber aumentado el número de variables
+La técnica de ajuste utilizada para realizar la regresión lineal es gradiente descendente estocástico (SGD) por motivos de eficiencia. Se barajó utilizar el algoritmo de la pseudoinversa, pero se descartó por ser ineficiente. Por ello, se utilizará la función \texttt{sklearn.linear\_model.SGDRegressor}.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 7. Discutir la necesidad de regularización y en su caso la justificar la función usada para ello.
@@ -498,16 +499,26 @@ SGD por eficiencia, al haber aumentado el número de variables
 %% Hace que los coeficientes sean pequeños.
 %% Funciona mejor cuando la mayoría de los atributos son
 %% relevantes.
+Tenemos muchas variables y no todas podrían ser igual de relevantes. Por un lado, se ha utilizado regularización Lasso como método para selección de variables, pues antes de esto algunas de las variables podrían no aportar información nueva y este método hará tender sus coeficientes a 0, permitiéndonos descartarlas.
+
+Por otro lado, para evitar el sobreajuste será interesante considerar alguna técnica de regularización. Con ello, disminuiremos la complejidad del modelo y haremos decrecer el término del error proveniente de la varianza.
+
+Se utilizará regularización Ridge, que, a diferencia de LASSO, no pone ningún coeficiente a 0. Penaliza a aquellos coeficientes que sean muy grandes, de forma que tengan menos peso al realizar el ajuste. De esta forma, disminuiremos la complejidad del modelo sin dejar de usar ninguna variable. El modelo a usar, \texttt{sklearn.linear\_model.SGDRegressor}, utiliza por defecto este tipo de regularización, luego no será necesario indicarlo de manera adicional.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 9. Estimación de hiperparámetros y selección del mejor modelo.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Estimación de hiperparámetros y selección del mejor modelo}
+\subsection{Estimación de hiperparámetros y selección del mejor modelo}\label{sec:hp}
 %% 1. Ajustar los hiperparámetros del modelo.
 %% 2. Ajustar los datos de validación (o test).
 %% 3. Seleccionar el que se considera el mejor de los modelos y
 %% argumentar por qué se elige.
+Se han considerado tres tipos de parámetros a ajustar en este modelo. Por un lado, el valor de \texttt{alpha}, la constante de regularización, para la que se probaron los valores: 0.1, 0.01, 0.001 y 0.0001. Para la tasa de aprendizaje, \texttt{learning\_rate}, se consideraron las diferentes opciones ofrecidas por la biblioteca: \texttt{'constant', 'optimal','invscaling', 'adaptive'}. Por último, se prueban diferentes valores para el número máximo de iteraciones: 5000, 10000 y 15000.
+
+Para seleccionar el mejor modelo se probarán las diferentes combinaciones de los parámetros en el conjunto de entrenamiento mediante validación cruzada. Este proceso se implementa con ayuda de la función \texttt{sklearn.model\_selection.GridSearchCV}. Hay que tener en cuenta que esta función maximiza el parámetro \texttt{scoring}, por lo que, para obtener el modelo con menor error cuadrático medio, calculamos su negación.
+
+Tras la ejecución de la validación cruzada, obtenemos que el mejor modelo es aquel que obtiene menor error cuadrático medio en la validación. Este es regresión lineal tomando \texttt{alpha = 0.0001}, \texttt{learning\_rate = 'adaptive'}, \texttt{max\_iter = 10000}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 10. Estimación por validación cruzada del error E out del modelo. Compárela con E test , ¿que
@@ -515,6 +526,22 @@ SGD por eficiencia, al haber aumentado el número de variables
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Estimación del error}
 %% Especificar el error que se produce al ajustar el modelo.
+En la validación cruzada se obtiene el siguiente error\[
+E_{\text{CV}} = 0.014431164996118306.\]
+
+Al usar el modelo para predecir la variable objetivo con los datos de \test y compararlo con el valor real se obtiene el error\[
+E_{\test} = 0.0233.
+\]
+
+El error cometido en los datos de \test es mayor que el error de la validación cruzada. Pero es el error en \test el que nos dará una cota más precisa del error fuera de la muestra, $E_{\textit{out}}$. El error fuera de la muestra está acotado, con una confianza del 95\% por\[
+E_{out}\leq E_{\test} + \sqrt{\frac{1}{2N_{\test}} \log \frac{2}{0.05}}.
+  \]
+
+  Sustituyendo el número de muestras utilizado para realizar el \test, $N_{\test} = 499$, y el valor de $E_{\test}$, obtenemos la cota\[
+E_{out}\leq 0.0233 + \sqrt{\frac{1}{2\cdot 499} \log \frac{2}{0.05}} = 0.084096973.
+\]
+
+Es normal que el error fuera de la muestra, en puntos no utilizados para entrenar sea mayor que el error en los datos utilizados para entrenar. La estimación obtenida con la validación cruzada sería una cota muy optimista del error.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 11. Suponga que Ud ha sido encargado de realizar este ajuste para una empresa. ¿Qué modelo
@@ -526,6 +553,9 @@ SGD por eficiencia, al haber aumentado el número de variables
 %% I ¿Consideras que la calidad del modelo es buena?
 %% I ¿Es tu modelo el que proporciona el mejor error?
 %% I ¿Por qué te has decidido por este modelo?
+Para realizar un ajuste de la base de datos dada, atendiendo a la naturaleza del problema y el tipo de variable a predecir, propondría utilizar regresión lineal con los hiperparámetros seleccionados en la Sección \ref{sec:hp}.\\
+
+Considero que la calidad del modelo es buena, ha sido el que ha obtenido menor error en validación cruzada entre las diferentes opciones tenidas en cuenta. Además, podemos asegurar que el error fuera de la muestra es menor o igual que 0.084. Cuando traten de predecir el número de crímenes violentos por habitante en nuevas comunidades a partir de la información necesaria, podrán tener confianza en que el error obtenido en la predicción es menor que este valor.
 \newpage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
